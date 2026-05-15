@@ -7,6 +7,8 @@ A modern e-commerce web application built with Angular 21. It features a compone
 | Name               | GitHub                                           |
 | ------------------ | ------------------------------------------------ |
 | Kiryl Tserpilouski | [@Tserpilouski](https://github.com/Tserpilouski) |
+| Dominik Obuch      | [@DominikObuch](https://github.com/DominikObuch) |
+| Vladyslav Sklema   | [@waldemarIT](https://github.com/waldemarIT)     |
 
 ---
 
