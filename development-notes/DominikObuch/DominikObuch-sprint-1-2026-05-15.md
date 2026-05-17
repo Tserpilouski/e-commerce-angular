@@ -1,0 +1,7 @@
+# Sprint 1: Commercetools API Integration & Storefront UI — 2026-05-15
+
+- **What was done:** Created the complete UI/UX design in Figma. Participated in a team sprint planning meeting to establish project priorities and divide development tasks. Integrated Commercetools API into the Angular 21 project. Configured `@ngx-env/builder` for native `.env` environment variable support (`import.meta.env`). Designed and implemented structured TypeScript data models organized by domain (`auth`, `common`, `products`) for Commercetools API entities (Product, ProductVariant, Price, Money). Built `CommercetoolsService` for OAuth token handling and product fetching.
+- **Problems:** Standard Angular CLI builder (`@angular/build:application`) does not natively inject `.env` variables into `import.meta.env` at runtime, causing undefined environment lookups. In addition, TypeScript lacked type definitions for custom environment keys.
+- **Solutions:** Switched build and serve builders to `@ngx-env/builder` in `angular.json` and `package.json`, and added `env.d.ts` to provide robust TypeScript typing and autocompletion for `NG_APP_...` variables.
+- **What I learned:** Organizing data models cleanly into feature directories (`auth`, `common`, `products`) and maintaining a strict separation of concerns makes API integration significantly cleaner and more scalable. Leveraging `@ngx-env/builder` allows seamless 12-factor app configuration using `.env` files without needing static `environment.ts` replacement files.
+- **Time spent:** 6 hours
