@@ -1,4 +1,6 @@
 <main>
-  <h1>Hello world</h1>
+  <app-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
+  <app-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
+  <app-product-galeria [products]="products" (addToCard)="onAddToCard($event)" />
   <router-outlet />
 </main>
