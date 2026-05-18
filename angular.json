@@ -16,7 +16,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ec",
       "architect": {
         "build": {
           "builder": "@ngx-env/builder:application",
