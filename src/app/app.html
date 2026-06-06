@@ -1,25 +1,65 @@
 <main>
-  <app-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
-  <app-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
-  <app-product-galeria [products]="products" (addToCard)="onAddToCard($event)" />
-  <form [formGroup]="form">
-    <ec-input label="Email" type="email" placeholder="user@example.com" prefixIcon="mail" formControlName="email" />
-    <ec-input
-      label="Name"
-      type="text"
-      placeholder="Kiryl"
-      prefixIcon="person"
-      formControlName="name"
-      status="success" />
-    <ec-input
-      label="Password"
-      type="password"
-      placeholder="••••••••"
-      prefixIcon="lock"
-      formControlName="password"
-      status="error" />
-  </form>
+  <div class="demo-title-bar">
+    <h1>Pagination Wrapper Component</h1>
+    <p>A comprehensive collection of navigation and loading states designed for high-stakes enterprise applications.</p>
+  </div>
 
-  <p>Значение: {{ form.value.email }}</p>
+  <div class="demo-grid">
+    <!-- Variant 1: Numeric Pagination -->
+    <section class="demo-section">
+      <h2>Numeric Pagination</h2>
+      <ec-pagination-wrapper
+        [mode]="PaginationMode.Numeric"
+        [response]="numericResponse()"
+        [loading]="numericLoading()"
+        (pageChange)="onNumericPageChange($event)">
+        <ec-product-galeria [products]="paginatedProducts()" (addToCard)="onAddToCard($event)" />
+      </ec-pagination-wrapper>
+    </section>
+
+    <!-- Variant 2: Load More Products -->
+    <section class="demo-section">
+      <h2>Load More Actions</h2>
+      <ec-pagination-wrapper
+        [mode]="PaginationMode.LoadMore"
+        [response]="loadMoreResponse()"
+        [loading]="loadMoreLoading()"
+        (loadMore)="onLoadMore($event)">
+        <ec-product-galeria [products]="cumulativeProducts()" (addToCard)="onAddToCard($event)" />
+      </ec-pagination-wrapper>
+    </section>
+  </div>
+
+  <!-- Form Demo Section -->
+  <div class="demo-title-bar" style="margin-top: 4rem">
+    <h1>Other UI Components</h1>
+  </div>
+
+  <div style="display: flex; gap: 4rem; flex-wrap: wrap; margin-bottom: 4rem">
+    <div>
+      <div style="display: flex; gap: 1rem; margin-bottom: 2rem">
+        <app-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
+        <app-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
+      </div>
+      <form [formGroup]="form">
+        <ec-input label="Email" type="email" placeholder="user@example.com" prefixIcon="mail" formControlName="email" />
+        <ec-input
+          label="Name"
+          type="text"
+          placeholder="Kiryl"
+          prefixIcon="person"
+          formControlName="name"
+          status="success" />
+        <ec-input
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          prefixIcon="lock"
+          formControlName="password"
+          status="error" />
+      </form>
+    </div>
+  </div>
+
   <router-outlet />
 </main>

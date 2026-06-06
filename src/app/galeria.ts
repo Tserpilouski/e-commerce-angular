@@ -1,9 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent, Product } from './card';
+import { CardComponent } from './card';
+import { Product } from './models/products/product.model';
 
 @Component({
-  selector: 'app-product-galeria',
+  selector: 'ec-product-galeria',
   imports: [CommonModule, CardComponent],
   templateUrl: 'galeria.html',
   styleUrl: 'galeria.css',
