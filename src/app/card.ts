@@ -1,18 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface Product {
-  id: number;
-  name: string;
-  description?: string;
-  price: number;
-  image: string;
-  badge?: string;
-}
+import { Product } from './models/products/product.model';
+import { ProductImagePipe } from './pipes/product-image.pipe';
 
 @Component({
-  selector: 'app-card',
-  imports: [CommonModule],
+  selector: 'ec-card',
+  imports: [CommonModule, ProductImagePipe],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })

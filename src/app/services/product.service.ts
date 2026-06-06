@@ -24,6 +24,16 @@ export class ProductService {
     return data.results;
   }
 
+  async fetchPagedProducts(limit = 20, offset = 0): Promise<ProductPagedQueryResponse> {
+    const data = await this.apiClient.ecomFetchWithState<ProductPagedQueryResponse>(
+      `product-projections?limit=${limit}&offset=${offset}`,
+      this.loading,
+      this.error,
+    );
+    this.products.set(data.results);
+    return data;
+  }
+
   async fetchProductByKey(key: string): Promise<Product> {
     const data = await this.apiClient.ecomFetchWithState<Product>(
       `product-projections/key=${key}`,

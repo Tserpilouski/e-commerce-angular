@@ -1,5 +1,5 @@
 <div class="galeria">
   @for (product of products(); track product.id) {
-    <app-card [product]="product" (addtoCard)="addToCard.emit($event)" />
+    <ec-card [product]="product" (addtoCard)="addToCard.emit($event)" />
   }
 </div>

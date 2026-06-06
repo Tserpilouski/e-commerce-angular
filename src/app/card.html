@@ -1,17 +1,17 @@
 <div class="card">
-  @if (product().badge) {
-    <span class="card__badge">{{ product().badge }}</span>
+  @if (product().published) {
+    <span class="card__badge">PUBLISHED</span>
   }
   <div class="card__image-wrapper">
-    <img class="card__image" [src]="product().image" [alt]="product().name" />
+    <img class="card__image" [src]="product() | productImage" [alt]="product().name?.['en'] || 'Product Image'" />
   </div>
   <div class="card__body">
-    <h3 class="card__name">{{ product().name }}</h3>
-    @if (product().description) {
-      <p class="card__description">{{ product().description }}</p>
+    <h3 class="card__name">{{ product().name?.['en'] || product().name?.['ru'] || 'Unnamed Product' }}</h3>
+    @if (product().description?.['en'] || product().description?.['ru']) {
+      <p class="card__description">{{ product().description?.['en'] || product().description?.['ru'] }}</p>
     }
     <div class="card__footer">
-      <span class="card__price">${{ product().price }}</span>
+      <span class="card__price">${{ (product().masterVariant?.prices?.[0]?.value?.centAmount || 0) / 100 }}</span>
       <button class="card__btn" (click)="onAddToCard()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
