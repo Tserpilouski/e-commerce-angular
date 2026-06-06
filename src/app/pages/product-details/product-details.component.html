@@ -1,0 +1,19 @@
+<div class="product-details">
+  @if (loading()) {
+    <div class="product-details__status">
+      <span>Loading specifications...</span>
+    </div>
+  } @else if (error()) {
+    <div class="product-details__status product-details__status--error">
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (product()) {
+    <div class="product-details__specs">
+      <ec-product-specifications [attributes]="product()!.masterVariant.attributes" />
+    </div>
+  } @else {
+    <div class="product-details__status">
+      <p>No specifications available.</p>
+    </div>
+  }
+</div>
