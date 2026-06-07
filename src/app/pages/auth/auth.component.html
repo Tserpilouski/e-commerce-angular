@@ -1,0 +1,45 @@
+<div class="auth-container">
+  <div class="auth-cover">
+    <div class="cover-image-wrapper">
+      <img src="/auth_side_banner.png" alt="RS-ecom Premium Tech Products" class="cover-image" />
+      <div class="cover-overlay"></div>
+    </div>
+    <div class="cover-content">
+      <div class="cover-brand">
+        <ec-logo [size]="32" class="cover-brand__logo"></ec-logo>
+        <span class="cover-brand__text">RS-ecom</span>
+      </div>
+      <div class="cover-quote">
+        <h2 class="cover-quote__title">Elevate Your Future.</h2>
+        <p class="cover-quote__desc">
+          Discover curated premium consumer electronics and accessories designed for modern living.
+        </p>
+      </div>
+      <div class="cover-footer">
+        <p class="cover-footer__text">© 2026 RS-ecom. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-content-panel">
+    <div class="auth-box">
+      <div class="mobile-brand-header">
+        <ec-logo [size]="28" color="#3b2fc9" class="mobile-logo"></ec-logo>
+        <span class="mobile-brand-text">RS-ecom</span>
+      </div>
+
+      <header class="auth-header-info">
+        <h1 class="auth-title">Welcome to RS-ecom</h1>
+        <p class="auth-subtitle">Join us to access exclusive offers and manage your orders.</p>
+      </header>
+
+      <ec-tabs [options]="authTabs" [activeTabId]="activeTab()" (tabChange)="handleTabChange($event)"></ec-tabs>
+
+      @if (activeTab() === AuthTab.LOGIN) {
+        <ec-auth-login [prefilledEmail]="prefilledEmail()" (loginSuccess)="handleLoginSuccess()"> </ec-auth-login>
+      } @else {
+        <ec-auth-register (registerSuccess)="handleRegisterSuccess($event)"> </ec-auth-register>
+      }
+    </div>
+  </div>
+</div>
