@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './shared/components/header/header';
+import { Footer } from './shared/components/footer/footer';
 import { Product } from './models/products/product.model';
 import { ProductGaleriaComponent } from './galeria';
 import { Button } from './button/button';
@@ -21,6 +22,7 @@ import { ProductService } from './services/product.service';
     ReactiveFormsModule,
     PaginationWrapperComponent,
     Header,
+    Footer,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',

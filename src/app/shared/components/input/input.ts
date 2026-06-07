@@ -4,7 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModu
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
-export type InputStatus = 'default' | 'success' | 'error';
+type InputStatus = 'default' | 'success' | 'error';
 
 @Component({
   selector: 'ec-input',

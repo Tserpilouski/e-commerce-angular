@@ -39,8 +39,8 @@
   <div style="display: flex; gap: 4rem; flex-wrap: wrap; margin-bottom: 4rem">
     <div>
       <div style="display: flex; gap: 1rem; margin-bottom: 2rem">
-        <app-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
-        <app-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
+        <ec-button label="Add to cart" variant="primary" (btnClick)="onAddToCard(paginatedProducts()[0])" />
+        <ec-button label="Learn more" variant="outline" (btnClick)="onAddToCard(paginatedProducts()[0])" />
       </div>
       <form [formGroup]="form">
         <ec-input label="Email" type="email" placeholder="user@example.com" prefixIcon="mail" formControlName="email" />
@@ -64,3 +64,4 @@
 
   <router-outlet />
 </main>
+<ec-footer />
