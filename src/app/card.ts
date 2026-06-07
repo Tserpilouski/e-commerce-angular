@@ -11,7 +11,7 @@ export interface Product {
 }
 
 @Component({
-  selector: 'app-card',
+  selector: 'ec-card',
   imports: [CommonModule],
   templateUrl: './card.html',
   styleUrl: './card.scss',

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CardComponent, Product } from './card';
 
 @Component({
-  selector: 'app-product-galeria',
+  selector: 'ec-product-galeria',
   imports: [CommonModule, CardComponent],
   templateUrl: 'galeria.html',
   styleUrl: 'galeria.css',
