@@ -1,17 +1,23 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Product } from './card';
 import { ProductGaleriaComponent } from './galeria';
 import { Button } from './button/button';
+import { Input } from './shared/components/input/input';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, ProductGaleriaComponent, Button],
+  selector: 'ec-root',
+  imports: [RouterOutlet, ProductGaleriaComponent, Button, Input, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('e-commerce-angular');
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    name: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.email]),
+  });
 
   products: Product[] = [
     {

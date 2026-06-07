@@ -1,0 +1,36 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  width: 100%;
+
+  &[data-status='success'] {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: #22c55e,
+        outlined-hover-outline-color: #16a34a,
+        outlined-focus-outline-color: #16a34a,
+        outlined-label-text-color: #16a34a,
+        outlined-focus-label-text-color: #16a34a,
+        outlined-caret-color: #16a34a,
+      )
+    );
+  }
+
+  &[data-status='error'] {
+    @include mat.form-field-overrides(
+      (
+        outlined-outline-color: #ef4444,
+        outlined-hover-outline-color: #dc2626,
+        outlined-focus-outline-color: #dc2626,
+        outlined-label-text-color: #dc2626,
+        outlined-focus-label-text-color: #dc2626,
+        outlined-caret-color: #dc2626,
+      )
+    );
+  }
+
+  ::ng-deep .ec-input {
+    width: 100%;
+  }
+}

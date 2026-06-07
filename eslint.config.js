@@ -16,11 +16,13 @@ module.exports = defineConfig([
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
       '@angular-eslint/directive-selector': [
         'error',
         {
           type: 'attribute',
-          prefix: 'app',
+          prefix: 'ec',
           style: 'camelCase',
         },
       ],
@@ -28,7 +30,7 @@ module.exports = defineConfig([
         'error',
         {
           type: 'element',
-          prefix: 'app',
+          prefix: 'ec',
           style: 'kebab-case',
         },
       ],

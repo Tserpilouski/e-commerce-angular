@@ -1,6 +1,25 @@
 <main>
-  <app-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
-  <app-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
-  <app-product-galeria [products]="products" (addToCard)="onAddToCard($event)" />
+  <ec-button label="Add to cart" variant="primary" (clicked)="(onAddToCard)" />
+  <ec-button label="Learn more" variant="outline" (clicked)="(onAddToCard)" />
+  <ec-product-galeria [products]="products" (addToCard)="onAddToCard($event)" />
+  <form [formGroup]="form">
+    <ec-input label="Email" type="email" placeholder="user@example.com" prefixIcon="mail" formControlName="email" />
+    <ec-input
+      label="Name"
+      type="text"
+      placeholder="Kiryl"
+      prefixIcon="person"
+      formControlName="name"
+      status="success" />
+    <ec-input
+      label="Password"
+      type="password"
+      placeholder="••••••••"
+      prefixIcon="lock"
+      formControlName="password"
+      status="error" />
+  </form>
+
+  <p>Значение: {{ form.value.email }}</p>
   <router-outlet />
 </main>
