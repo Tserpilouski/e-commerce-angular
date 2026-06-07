@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 import { ProductService } from './services/product.service';
 import { ProductPagedQueryResponse } from './models/products/product-paged-query-response.model';
@@ -30,7 +31,7 @@ describe('App', () => {
 
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [{ provide: ProductService, useValue: mockProductService }],
+      providers: [provideRouter([]), { provide: ProductService, useValue: mockProductService }],
     }).compileComponents();
   });
 
