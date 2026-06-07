@@ -1,0 +1,121 @@
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+  @if (authError()) {
+    <div class="auth-alert auth-alert--error" role="alert">
+      <span class="auth-alert__message">{{ authError() }}</span>
+    </div>
+  }
+  <div class="form-group">
+    <ec-input
+      formControlName="email"
+      type="email"
+      label="Email address"
+      placeholder="name@company.com"
+      [status]="signInForm.get('email')?.invalid && signInForm.get('email')?.touched ? 'error' : 'default'">
+    </ec-input>
+    @if (signInForm.get('email')?.invalid && signInForm.get('email')?.touched) {
+      <span class="field-error">
+        @if (signInForm.get('email')?.errors?.['required']) {
+          Email is required.
+        }
+        @if (signInForm.get('email')?.errors?.['email']) {
+          Please enter a valid email.
+        }
+      </span>
+    }
+  </div>
+
+  <div class="form-group">
+    <div class="label-row-forgot">
+      <a href="javascript:void(0)" class="forgot-link">Forgot password?</a>
+    </div>
+    <div class="password-input-wrapper">
+      <ec-input
+        [type]="showPassword() ? 'text' : 'password'"
+        formControlName="password"
+        label="Password"
+        placeholder="••••••••"
+        [status]="signInForm.get('password')?.invalid && signInForm.get('password')?.touched ? 'error' : 'default'">
+      </ec-input>
+      <button
+        type="button"
+        class="password-toggle"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+        @if (showPassword()) {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+            <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+            <path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+            <line x1="2" y1="2" x2="22" y2="22"></line>
+          </svg>
+        } @else {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        }
+      </button>
+    </div>
+    @if (signInForm.get('password')?.invalid && signInForm.get('password')?.touched) {
+      <span class="field-error">
+        @if (signInForm.get('password')?.errors?.['required']) {
+          Password is required.
+        }
+        @if (signInForm.get('password')?.errors?.['minlength']) {
+          Password must be at least 6 characters.
+        }
+      </span>
+    }
+  </div>
+
+  <button type="submit" class="submit-btn" [disabled]="isLoading()">
+    @if (isLoading()) {
+      <span class="spinner"></span> Signing In...
+    } @else {
+      Sign In
+      <svg
+        class="submit-btn__arrow"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M3.33334 8H12.6667"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path
+          d="M8 3.33331L12.6667 7.99998L8 12.6666"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    }
+  </button>
+</form>
+
+<footer class="auth-footer">
+  <p class="auth-footer__disclaimer">
+    By signing in, you agree to our <a href="javascript:void(0)" class="footer-link">Terms of Service</a> and
+    <a href="javascript:void(0)" class="footer-link">Privacy Policy</a>.
+  </p>
+</footer>

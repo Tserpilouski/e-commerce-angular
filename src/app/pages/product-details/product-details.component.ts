@@ -1,6 +1,6 @@
 import { Component, effect, inject, input } from '@angular/core';
 import { ProductService } from '../../services/product.service';
-import { ProductSpecificationsComponent } from './product-specifications/product-specifications.component';
+import { ProductSpecificationsComponent } from './components/product-specifications/product-specifications.component';
 
 @Component({
   selector: 'ec-product-details',
