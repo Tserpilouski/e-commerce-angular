@@ -1,4 +1,20 @@
 import { Routes } from '@angular/router';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
+import { guestGuard } from './core/guards/guest.guard';
 
-export const routes: Routes = [{ path: 'product/:key', component: ProductDetailsComponent }];
+export const routes: Routes = [
+  {
+    path: 'product/:key',
+    loadComponent: () =>
+      import('./pages/product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+  },
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/auth/auth.component').then((m) => m.AuthComponent),
+  },
+  {
+    path: 'register',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/auth/auth.component').then((m) => m.AuthComponent),
+  },
+];

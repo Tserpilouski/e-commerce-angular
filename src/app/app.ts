@@ -108,7 +108,7 @@ export class App implements OnInit {
     }
   }
 
-  onAddToCard(products: Product) {
+  onAddToCard(products?: Product) {
     console.log('added to card', products);
   }
 }
