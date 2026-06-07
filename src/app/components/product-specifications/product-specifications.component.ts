@@ -7,7 +7,7 @@ export interface SpecificationItem {
 }
 
 @Component({
-  selector: 'app-product-specifications',
+  selector: 'ec-product-specifications',
   template: `
     <div class="spec-card">
       <div class="spec-card__header">

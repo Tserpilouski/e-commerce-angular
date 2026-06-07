@@ -3,7 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { ProductSpecificationsComponent } from '../../components/product-specifications/product-specifications.component';
 
 @Component({
-  selector: 'app-product-details',
+  selector: 'ec-product-details',
   imports: [ProductSpecificationsComponent],
   template: `
     <div class="product-details">
@@ -17,7 +17,7 @@ import { ProductSpecificationsComponent } from '../../components/product-specifi
         </div>
       } @else if (product()) {
         <div class="product-details__specs">
-          <app-product-specifications [attributes]="product()!.masterVariant.attributes" />
+          <ec-product-specifications [attributes]="product()!.masterVariant.attributes" />
         </div>
       } @else {
         <div class="product-details__status">
