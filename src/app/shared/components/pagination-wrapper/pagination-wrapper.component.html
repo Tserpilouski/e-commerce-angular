@@ -1,0 +1,72 @@
+<div class="ec-pagination-wrapper">
+  <!-- Projected Content (e.g. products list) -->
+  <div class="ec-pagination-wrapper__content" [class.ec-pagination-wrapper__content--loading]="loading()">
+    <ng-content></ng-content>
+
+    @if (loading() && mode() === PaginationMode.Numeric) {
+      <div class="ec-pagination-wrapper__overlay">
+        <mat-spinner diameter="48"></mat-spinner>
+      </div>
+    }
+  </div>
+
+  <!-- Pagination Controls Footer -->
+  <div class="ec-pagination-wrapper__controls">
+    <!-- Mode 1: Numeric Pagination -->
+    @if (mode() === PaginationMode.Numeric) {
+      <div class="ec-pagination-wrapper__numeric">
+        <!-- Previous Page Button -->
+        <button
+          mat-icon-button
+          class="ec-pagination-wrapper__nav-btn"
+          [disabled]="currentPage() === 1 || loading()"
+          (click)="onPrevPage()"
+          aria-label="Previous page">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <!-- Page Numbers -->
+        @for (page of visiblePages(); track $index) {
+          @if (page === '...') {
+            <span class="ec-pagination-wrapper__ellipsis">...</span>
+          } @else {
+            <button
+              mat-flat-button
+              class="ec-pagination-wrapper__page-btn"
+              [class.ec-pagination-wrapper__page-btn--active]="page === currentPage()"
+              [disabled]="loading()"
+              (click)="onPageSelect(page)">
+              {{ page }}
+            </button>
+          }
+        }
+
+        <!-- Next Page Button -->
+        <button
+          mat-icon-button
+          class="ec-pagination-wrapper__nav-btn"
+          [disabled]="currentPage() === totalPages() || loading()"
+          (click)="onNextPage()"
+          aria-label="Next page">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    }
+
+    <!-- Mode 2: Load More Products -->
+    @if (mode() === PaginationMode.LoadMore) {
+      <div class="ec-pagination-wrapper__load-more">
+        @if (loading()) {
+          <div class="ec-pagination-wrapper__loading-container">
+            <mat-spinner diameter="24"></mat-spinner>
+            <span class="ec-pagination-wrapper__loading-text">Loading...</span>
+          </div>
+        } @else {
+          <button mat-stroked-button class="ec-pagination-wrapper__load-btn" (click)="onLoadMoreClick()">
+            {{ loadMoreLabel() }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+</div>

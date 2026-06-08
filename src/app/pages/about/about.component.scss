@@ -1,0 +1,87 @@
+.about {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  &__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.75rem;
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  &__team {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    width: 240px;
+    transition: box-shadow 0.2s;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f3f4f6;
+  }
+
+  &__name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+  }
+
+  &__role {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  &__github {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4f46e5;
+    text-decoration: none;
+    border: 1px solid #4f46e5;
+    border-radius: 6px;
+    padding: 0.35rem 1rem;
+    transition:
+      background 0.15s,
+      color 0.15s;
+
+    &:hover {
+      background: #4f46e5;
+      color: #fff;
+    }
+  }
+}

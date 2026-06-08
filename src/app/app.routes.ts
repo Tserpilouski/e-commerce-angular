@@ -1,4 +1,30 @@
 import { Routes } from '@angular/router';
-import { ProductDetailsComponent } from './pages/product-details/product-details.component';
+import { guestGuard } from './core/guards/guest.guard';
+import { HomeComponent } from './pages/home/home.component';
 
-export const routes: Routes = [{ path: 'product/:key', component: ProductDetailsComponent }];
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'product/:key',
+    loadComponent: () =>
+      import('./pages/product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+  },
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/auth/auth.component').then((m) => m.AuthComponent),
+  },
+  {
+    path: 'register',
+    canActivate: [guestGuard],
+    loadComponent: () => import('./pages/auth/auth.component').then((m) => m.AuthComponent),
+  },
+  {
+    path: 'product-list',
+    loadComponent: () => import('./pages/product-list/product-list.component').then((m) => m.ProductListComponent),
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./pages/about/about.component').then((m) => m.AboutComponent),
+  },
+];
