@@ -1,22 +1,5 @@
+<ec-header />
 <main>
-  <form [formGroup]="form">
-    <ec-input label="Email" type="email" placeholder="user@example.com" prefixIcon="mail" formControlName="email" />
-    <ec-input
-      label="Name"
-      type="text"
-      placeholder="Kiryl"
-      prefixIcon="person"
-      formControlName="name"
-      status="success" />
-    <ec-input
-      label="Password"
-      type="password"
-      placeholder="••••••••"
-      prefixIcon="lock"
-      formControlName="password"
-      status="error" />
-  </form>
-
-  <p>Значение: {{ form.value.email }}</p>
   <router-outlet />
 </main>
+<ec-footer />

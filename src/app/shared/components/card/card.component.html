@@ -1,0 +1,35 @@
+<div class="card">
+  @if (product().published) {
+    <span class="card__badge">PUBLISHED</span>
+  }
+  <div class="card__image-wrapper">
+    <a [routerLink]="['/product', product().key]">
+      <img class="card__image" [src]="product() | productImage" [alt]="product().name['en'] || 'Product Image'" />
+    </a>
+  </div>
+  <div class="card__body">
+    <a [routerLink]="['/product', product().key]">
+      <h3 class="card__name">{{ product().name['en'] || product().name['ru'] || 'Unnamed Product' }}</h3>
+    </a>
+    @if (product().description?.['en'] || product().description?.['ru']) {
+      <p class="card__description">{{ product().description?.['en'] || product().description?.['ru'] }}</p>
+    }
+    <div class="card__footer">
+      <span class="card__price">${{ (product().masterVariant.prices?.[0]?.value?.centAmount || 0) / 100 }}</span>
+      <button class="card__btn" (click)="onAddToCard()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

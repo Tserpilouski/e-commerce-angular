@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Input } from './shared/components/input/input';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Header } from './shared/components/header/header';
+import { Footer } from './shared/components/footer/footer';
 
 @Component({
   selector: 'ec-root',
-  imports: [RouterOutlet, Input, ReactiveFormsModule],
+  imports: [RouterOutlet, ReactiveFormsModule, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    name: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.email]),
-  });
-}
+export class App {}

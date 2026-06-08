@@ -1,0 +1,13 @@
+<div class="spec-card">
+  <div class="spec-card__header">
+    <h4>Core Specifications</h4>
+  </div>
+  <div class="spec-card__list">
+    @for (item of displaySpecs(); track item.label) {
+      <div class="spec-card__row">
+        <span class="spec-card__label">{{ item.label }}</span>
+        <span class="spec-card__value">{{ item.value }}</span>
+      </div>
+    }
+  </div>
+</div>
