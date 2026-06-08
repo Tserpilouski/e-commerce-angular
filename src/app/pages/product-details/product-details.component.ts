@@ -4,7 +4,6 @@ import { ProductSpecificationsComponent } from './components/product-specificati
 
 @Component({
   selector: 'ec-product-details',
-  selector: 'ec-product-details',
   imports: [ProductSpecificationsComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
