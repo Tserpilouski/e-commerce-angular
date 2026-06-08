@@ -1,0 +1,17 @@
+<section class="about">
+  <div class="about__header">
+    <h1 class="about__title">About Us</h1>
+    <p class="about__subtitle">We are a team of passionate developers building the best e-commerce experience.</p>
+  </div>
+
+  <div class="about__team">
+    @for (member of team; track member.github) {
+      <div class="about__card">
+        <img class="about__avatar" [src]="member.avatar" [alt]="member.name" />
+        <h3 class="about__name">{{ member.name }}</h3>
+        <p class="about__role">{{ member.role }}</p>
+        <a class="about__github" [href]="member.github" target="_blank" rel="noopener noreferrer"> GitHub </a>
+      </div>
+    }
+  </div>
+</section>

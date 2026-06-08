@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
-import { Input } from '../../../../shared/components/input/input';
+import { InputComponent } from '../../../../shared/components/input/input.component';
 
 @Component({
   selector: 'ec-auth-register',
-  imports: [ReactiveFormsModule, Input],
+  imports: [ReactiveFormsModule, InputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

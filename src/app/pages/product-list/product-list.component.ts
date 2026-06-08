@@ -4,7 +4,7 @@ import { Product } from '../../models/products/product.model';
 import { PaginationMode } from '../../shared/components/pagination-wrapper/models/pagination-mode.enum';
 import { PagedQueryResponse } from '../../models/common/paged-query-response.model';
 import { PaginationWrapperComponent } from '../../shared/components/pagination-wrapper/pagination-wrapper.component';
-import { ProductGaleriaComponent } from '../../galeria';
+import { ProductGaleriaComponent } from '../home/components/galeria/galeria';
 
 @Component({
   selector: 'ec-product-list',

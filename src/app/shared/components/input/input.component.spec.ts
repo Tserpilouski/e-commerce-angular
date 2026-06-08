@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Input } from './input';
-describe('Input', () => {
-  let component: Input;
-  let fixture: ComponentFixture<Input>;
+import { InputComponent } from './input.component';
+describe('InputComponent', () => {
+  let component: InputComponent;
+  let fixture: ComponentFixture<InputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Input],
+      imports: [InputComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Input);
+    fixture = TestBed.createComponent(InputComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -97,7 +97,7 @@ describe('Input', () => {
 
   describe('disabled state', () => {
     it('should disable native input when isDisabled is true', async () => {
-      const localFixture = TestBed.createComponent(Input);
+      const localFixture = TestBed.createComponent(InputComponent);
       localFixture.componentInstance.isDisabled = true;
       localFixture.detectChanges();
       await localFixture.whenStable();

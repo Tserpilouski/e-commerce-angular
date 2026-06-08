@@ -10,20 +10,20 @@ type InputStatus = 'default' | 'success' | 'error';
   selector: 'ec-input',
   standalone: true,
   imports: [MatInputModule, MatFormFieldModule, MatIconModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './input.html',
-  styleUrl: './input.scss',
+  templateUrl: './input.component.html',
+  styleUrl: './input.component.scss',
   host: {
     '[attr.data-status]': 'status()',
   },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => Input),
+      useExisting: forwardRef(() => InputComponent),
       multi: true,
     },
   ],
 })
-export class Input implements ControlValueAccessor {
+export class InputComponent implements ControlValueAccessor {
   type = input<string>('text');
   placeholder = input<string>('');
   label = input<string>('');
