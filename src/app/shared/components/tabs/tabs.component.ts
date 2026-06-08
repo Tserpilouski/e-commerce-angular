@@ -21,10 +21,10 @@ import { TabOption } from './models/tabOption.model';
       }
     </nav>
   `,
-  styleUrl: './tabs.scss',
+  styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Tabs {
+export class TabsComponent {
   readonly options = input<TabOption[]>([]);
   readonly activeTabId = input<string>('');
   readonly tabChange = output<string>();

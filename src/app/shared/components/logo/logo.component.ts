@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 @Component({
   selector: 'ec-logo',
-  templateUrl: './logo.html',
-  styleUrl: './logo.scss',
+  templateUrl: './logo.component.html',
+  styleUrl: './logo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Logo {
+export class LogoComponent {
   readonly size = input<number | string>(32);
   readonly color = input<string>('currentColor');
 

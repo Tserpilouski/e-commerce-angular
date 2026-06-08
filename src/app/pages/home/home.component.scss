@@ -1,0 +1,78 @@
+.home {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+
+  &__hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    border-radius: 16px;
+    margin-bottom: 4rem;
+  }
+
+  &__title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  &__subtitle {
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin: 0 0 2rem;
+  }
+
+  &__cta {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: #4f46e5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #4338ca;
+    }
+  }
+
+  &__features {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__feature {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+  }
+
+  &__feature-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  &__feature-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.4rem;
+  }
+
+  &__feature-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0;
+  }
+}

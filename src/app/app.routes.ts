@@ -3,6 +3,10 @@ import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+  },
+  {
     path: 'product/:key',
     loadComponent: () =>
       import('./pages/product-details/product-details.component').then((m) => m.ProductDetailsComponent),
@@ -20,5 +24,9 @@ export const routes: Routes = [
   {
     path: 'product-list',
     loadComponent: () => import('./pages/product-list/product-list.component').then((m) => m.ProductListComponent),
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./pages/about/about.component').then((m) => m.AboutComponent),
   },
 ];
