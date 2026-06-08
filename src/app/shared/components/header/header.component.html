@@ -1,0 +1,20 @@
+<header class="header">
+  <a class="header__logo" routerLink="/product-list">
+    <span class="header__logo-icon">&#9786;</span>
+    <span class="header__logo-text">RS Ecom</span>
+  </a>
+
+  <nav class="header__nav">
+    <a class="header__nav-link" routerLink="/product-list" routerLinkActive="header__nav-link--active">Shop</a>
+    <a class="header__nav-link" routerLink="/about" routerLinkActive="header__nav-link--active">About Us</a>
+  </nav>
+
+  <div class="header__actions">
+    <button class="header__icon-btn" aria-label="Cart">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+    <a class="header__icon-btn" routerLink="/login" aria-label="Account">
+      <mat-icon>account_circle</mat-icon>
+    </a>
+  </div>
+</header>

@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Tabs } from '../../shared/components/tabs/tabs';
+import { TabsComponent } from '../../shared/components/tabs/tabs.component';
 import { TabOption } from '../../shared/components/tabs/models/tabOption.model';
-import { Logo } from '../../shared/components/logo/logo';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthTab } from './model/auth-tab.enum';
 
 @Component({
   selector: 'ec-auth',
-  imports: [Tabs, Logo, LoginComponent, RegisterComponent],
+  imports: [TabsComponent, LogoComponent, LoginComponent, RegisterComponent],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

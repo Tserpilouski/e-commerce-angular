@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'ec-footer',
   imports: [FormsModule],
-  templateUrl: './footer.html',
-  styleUrl: './footer.scss',
+  templateUrl: './footer.component.html',
+  styleUrl: './footer.component.scss',
 })
-export class Footer {
+export class FooterComponent {
   email = signal('');
 
   onSubscribe() {

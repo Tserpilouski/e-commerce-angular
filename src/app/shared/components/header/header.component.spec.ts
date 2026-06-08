@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import { Header } from './header';
+import { HeaderComponent } from './header.component';
 
-describe('Header', () => {
-  let component: Header;
-  let fixture: ComponentFixture<Header>;
+describe('HeaderComponent', () => {
+  let component: HeaderComponent;
+  let fixture: ComponentFixture<HeaderComponent>;
   let nativeEl: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Header],
+      imports: [HeaderComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Header);
+    fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     nativeEl = fixture.nativeElement;
     await fixture.whenStable();
@@ -29,15 +29,15 @@ describe('Header', () => {
     expect(logoText?.textContent?.trim()).toBe('RS Ecom');
   });
 
-  it('should render 5 navigation links', () => {
+  it('should render 2 navigation links', () => {
     const links = nativeEl.querySelectorAll('.header__nav-link');
-    expect(links.length).toBe(5);
+    expect(links.length).toBe(2);
   });
 
   it('should render correct navigation link labels', () => {
     const links = nativeEl.querySelectorAll('.header__nav-link');
     const labels = Array.from(links).map((l) => l.textContent?.trim());
-    expect(labels).toEqual(['Shop', 'Tech', 'New Drops', 'Support', 'About Us']);
+    expect(labels).toEqual(['Shop', 'About Us']);
   });
 
   it('should render the cart icon button', () => {
@@ -45,8 +45,8 @@ describe('Header', () => {
     expect(cartBtn).toBeTruthy();
   });
 
-  it('should render the account icon button', () => {
-    const accountBtn = nativeEl.querySelector('button[aria-label="Account"]');
-    expect(accountBtn).toBeTruthy();
+  it('should render the account link', () => {
+    const accountLink = nativeEl.querySelector('a[aria-label="Account"]');
+    expect(accountLink).toBeTruthy();
   });
 });

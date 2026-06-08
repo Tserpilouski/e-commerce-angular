@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../services/auth.service';
-import { Input } from '../../../../shared/components/input/input';
+import { InputComponent } from '../../../../shared/components/input/input.component';
 
 @Component({
   selector: 'ec-auth-login',
-  imports: [ReactiveFormsModule, Input],
+  imports: [ReactiveFormsModule, InputComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

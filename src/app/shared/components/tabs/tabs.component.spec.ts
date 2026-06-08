@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Tabs } from './tabs';
+import { TabsComponent } from './tabs.component';
 import { TabOption } from './models/tabOption.model';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
-describe('Tabs', () => {
-  let component: Tabs;
-  let fixture: ComponentFixture<Tabs>;
+describe('TabsComponent', () => {
+  let component: TabsComponent;
+  let fixture: ComponentFixture<TabsComponent>;
   const mockOptions: TabOption[] = [
     { id: 'tab1', label: 'Tab One' },
     { id: 'tab2', label: 'Tab Two' },
@@ -13,10 +13,10 @@ describe('Tabs', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Tabs],
+      imports: [TabsComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Tabs);
+    fixture = TestBed.createComponent(TabsComponent);
     component = fixture.componentInstance;
   });
 
