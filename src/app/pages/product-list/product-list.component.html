@@ -1,0 +1,25 @@
+<div class="demo-grid">
+  <!-- Variant 1: Numeric Pagination -->
+  <section class="demo-section">
+    <h2>Numeric Pagination</h2>
+    <ec-pagination-wrapper
+      [mode]="PaginationMode.Numeric"
+      [response]="numericResponse()"
+      [loading]="numericLoading()"
+      (pageChange)="onNumericPageChange($event)">
+      <ec-product-galeria [products]="paginatedProducts()" (addToCard)="onAddToCard($event)" />
+    </ec-pagination-wrapper>
+  </section>
+
+  <!-- Variant 2: Load More Products -->
+  <section class="demo-section">
+    <h2>Load More Actions</h2>
+    <ec-pagination-wrapper
+      [mode]="PaginationMode.LoadMore"
+      [response]="loadMoreResponse()"
+      [loading]="loadMoreLoading()"
+      (loadMore)="onLoadMore($event)">
+      <ec-product-galeria [products]="cumulativeProducts()" (addToCard)="onAddToCard($event)" />
+    </ec-pagination-wrapper>
+  </section>
+</div>
