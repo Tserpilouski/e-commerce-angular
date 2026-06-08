@@ -1,0 +1,156 @@
+.footer {
+  background: #1a1a1a;
+  color: #d1d5db;
+  padding: 3rem 4rem 0;
+
+  &__main {
+    display: flex;
+    gap: 4rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #2d2d2d;
+  }
+
+  &__brand {
+    flex: 0 0 320px;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__logo-icon {
+    font-size: 1.3rem;
+    color: #9ca3af;
+  }
+
+  &__logo-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f9fafb;
+  }
+
+  &__tagline {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin: 0 0 1.5rem;
+  }
+
+  &__newsletter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin: 0 0 0.75rem;
+  }
+
+  &__newsletter-form {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  &__newsletter-input {
+    flex: 1;
+    padding: 0.6rem 0.875rem;
+    background: #111;
+    border: 1px solid #3d3d3d;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    color: #f9fafb;
+    font-size: 0.875rem;
+    outline: none;
+
+    &::placeholder {
+      color: #6b7280;
+    }
+
+    &:focus {
+      border-color: #4f46e5;
+    }
+  }
+
+  &__newsletter-btn {
+    padding: 0.6rem 1.25rem;
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #4338ca;
+    }
+  }
+
+  &__newsletter-note {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  &__links {
+    flex: 1;
+    display: flex;
+    gap: 3rem;
+    justify-content: flex-end;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 140px;
+  }
+
+  &__col-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f9fafb;
+    margin: 0 0 0.5rem;
+  }
+
+  &__link {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover {
+      color: #f9fafb;
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+
+  &__copy {
+    flex: 1;
+  }
+
+  &__payments {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1.5rem;
+  }
+
+  &__payment-badge {
+    padding: 0.2rem 0.5rem;
+    border: 1px solid #3d3d3d;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #9ca3af;
+    letter-spacing: 0.03em;
+  }
+}

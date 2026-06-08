@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from './models/products/product.model';
-import { ProductImagePipe } from './pipes/product-image.pipe';
+import { ProductImagePipe } from './shared/pipes/product-image.pipe';
 
 @Component({
   selector: 'ec-card',

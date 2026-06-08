@@ -1,0 +1,61 @@
+<footer class="footer">
+  <div class="footer__main">
+    <div class="footer__brand">
+      <div class="footer__logo">
+        <span class="footer__logo-icon">&#9786;</span>
+        <span class="footer__logo-text">RS Ecom</span>
+      </div>
+      <p class="footer__tagline">Premium tech gear for developers and gamers.</p>
+
+      <div class="footer__newsletter">
+        <p class="footer__newsletter-label">Subscribe to our newsletter</p>
+        <div class="footer__newsletter-form">
+          <input
+            class="footer__newsletter-input"
+            type="email"
+            placeholder="Enter your email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)" />
+          <button class="footer__newsletter-btn" (click)="onSubscribe()">Subscribe</button>
+        </div>
+        <p class="footer__newsletter-note">By subscribing, you agree to our Privacy Policy.</p>
+      </div>
+    </div>
+
+    <div class="footer__links">
+      <div class="footer__col">
+        <h4 class="footer__col-title">Shop</h4>
+        <a class="footer__link" href="#">Mac &amp; PC</a>
+        <a class="footer__link" href="#">Smartphones</a>
+        <a class="footer__link" href="#">Audio</a>
+        <a class="footer__link" href="#">Accessories</a>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__col-title">Support</h4>
+        <a class="footer__link" href="#">Contact Us</a>
+        <a class="footer__link" href="#">FAQs</a>
+        <a class="footer__link" href="#">Shipping &amp; Returns</a>
+        <a class="footer__link" href="#">Track Order</a>
+      </div>
+
+      <div class="footer__col">
+        <h4 class="footer__col-title">Company</h4>
+        <a class="footer__link" href="#">About RS School</a>
+        <a class="footer__link" href="#">Careers</a>
+        <a class="footer__link" href="#">Privacy Policy</a>
+        <a class="footer__link" href="#">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <span class="footer__copy">&copy; 2026 RS Ecom. All rights reserved.</span>
+    <div class="footer__payments">
+      <span class="footer__payment-badge">VISA</span>
+      <span class="footer__payment-badge">MC</span>
+      <span class="footer__payment-badge">PAY</span>
+      <span class="footer__payment-badge">PAYPAL</span>
+    </div>
+  </div>
+</footer>
