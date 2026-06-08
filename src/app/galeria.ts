@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from './card';
+import { CardComponent } from './shared/components/card/card.component';
 import { Product } from './models/products/product.model';
 
 @Component({
