@@ -3,7 +3,6 @@
   flex-direction: column;
 }
 
-// Hero
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -69,7 +68,6 @@
   }
 }
 
-// Categories
 .categories {
   padding: 40px 24px;
 
@@ -110,7 +108,6 @@
   }
 }
 
-// Trending
 .trending {
   padding: 0 24px 40px;
 
@@ -146,7 +143,6 @@
   }
 }
 
-// Enterprise
 .enterprise {
   display: flex;
   flex-direction: column;
