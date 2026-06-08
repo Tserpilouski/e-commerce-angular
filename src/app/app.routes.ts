@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from './core/guards/guest.guard';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
-  },
+  { path: '', component: HomeComponent },
   {
     path: 'product/:key',
     loadComponent: () =>

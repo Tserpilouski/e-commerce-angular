@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-
-interface TeamMember {
-  name: string;
-  role: string;
-  github: string;
-  avatar: string;
-}
+import { TeamMember } from './model/team-member.model';
 
 @Component({
   selector: 'ec-about',
