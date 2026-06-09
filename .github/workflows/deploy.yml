@@ -31,6 +31,13 @@ jobs:
 
       - run: npm ci
       - run: npm run build -- --base-href /e-commerce-angular/
+        env:
+          NG_APP_CTP_API_URL: ${{ secrets.NG_APP_CTP_API_URL }}
+          NG_APP_CTP_AUTH_URL: ${{ secrets.NG_APP_CTP_AUTH_URL }}
+          NG_APP_CTP_CLIENT_ID: ${{ secrets.NG_APP_CTP_CLIENT_ID }}
+          NG_APP_CTP_CLIENT_SECRET: ${{ secrets.NG_APP_CTP_CLIENT_SECRET }}
+          NG_APP_CTP_PROJECT_KEY: ${{ secrets.NG_APP_CTP_PROJECT_KEY }}
+          NG_APP_CTP_SCOPES: ${{ secrets.NG_APP_CTP_SCOPES }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
