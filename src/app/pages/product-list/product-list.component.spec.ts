@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductListComponent } from './product-list.component';
+import { ProductDetailsComponent } from '@pages/product-details/product-details.component';
 import { ProductService } from '@services/product.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { vi } from 'vitest';

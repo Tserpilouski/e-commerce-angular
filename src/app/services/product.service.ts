@@ -1,6 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ProductPagedQueryResponse } from '@models/products/product-paged-query-response.model';
 import { Product } from '@models/products/product.model';
+import { ProductPagedQueryResponse } from '@models/products/product-paged-query-response.model';
+import { Product } from '@models/products/product.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({
@@ -82,7 +84,7 @@ export class ProductService {
     }
   }
 
-  async searchProducts(query: string, limit = 20, offset = 0): Promise<ProductPagedQueryResponse> {
-    return this.fetchPagedProducts(limit, offset, query);
+  async searchProducts() {
+    // TODO: Implement product search functionality
   }
 }
