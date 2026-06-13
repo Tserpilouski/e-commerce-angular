@@ -32,6 +32,13 @@ jobs:
       - run: npm ci
       - run: npm run build -- --base-href /e-commerce-angular/
         env:
+          CTP_API_URL: ${{ secrets.CTP_API_URL }}
+          CTP_AUTH_URL: ${{ secrets.CTP_AUTH_URL }}
+          CTP_CLIENT_ID: ${{ secrets.CTP_CLIENT_ID }}
+          CTP_CLIENT_SECRET: ${{ secrets.CTP_CLIENT_SECRET }}
+          CTP_PROJECT_KEY: ${{ secrets.CTP_PROJECT_KEY }}
+          CTP_SCOPES: ${{ secrets.CTP_SCOPES }}
+
           NG_APP_CTP_API_URL: ${{ secrets.NG_APP_CTP_API_URL }}
           NG_APP_CTP_AUTH_URL: ${{ secrets.NG_APP_CTP_AUTH_URL }}
           NG_APP_CTP_CLIENT_ID: ${{ secrets.NG_APP_CTP_CLIENT_ID }}

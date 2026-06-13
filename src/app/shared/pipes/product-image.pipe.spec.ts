@@ -1,5 +1,5 @@
 import { ProductImagePipe } from './product-image.pipe';
-import { Product } from '../../models/products/product.model';
+import { Product } from '@models/products/product.model';
 
 describe('ProductImagePipe', () => {
   let pipe: ProductImagePipe;

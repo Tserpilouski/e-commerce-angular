@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CardComponent } from '../../shared/components/card/card.component';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../models/products/product.model';
+import { CardComponent } from '@shared/components/card/card.component';
+import { ProductService } from '@services/product.service';
+import { Product } from '@models/products/product.model';
 
 @Component({
   selector: 'ec-home',

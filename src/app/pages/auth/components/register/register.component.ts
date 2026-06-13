@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../../../services/auth.service';
-import { InputComponent } from '../../../../shared/components/input/input.component';
+import { AuthService } from '@services/auth.service';
+import { InputComponent } from '@shared/components/input/input.component';
 
 @Component({
   selector: 'ec-auth-register',

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { guestGuard } from './guest.guard';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('guestGuard', () => {
