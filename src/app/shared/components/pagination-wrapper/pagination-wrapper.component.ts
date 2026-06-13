@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PagedQueryResponse } from '../../../models/common/paged-query-response.model';
+import { PagedQueryResponse } from '@models/common/paged-query-response.model';
 import { PaginationMode } from './models/pagination-mode.enum';
 
 @Component({

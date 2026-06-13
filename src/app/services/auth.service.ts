@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, Injector, signal } from '@angular/core';
-import { AuthTokenResponse } from '../models/auth/auth.model';
-import { Customer } from '../shared/models/customer.model';
-import { CustomerSignInResult } from '../shared/models/customer-sign-in-result.model';
+import { AuthTokenResponse } from '@models/auth/auth.model';
+import { Customer } from '@shared/models/customer.model';
+import { CustomerSignInResult } from '@shared/models/customer-sign-in-result.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({

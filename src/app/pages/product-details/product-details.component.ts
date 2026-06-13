@@ -1,5 +1,5 @@
 import { Component, effect, inject, input } from '@angular/core';
-import { ProductService } from '../../services/product.service';
+import { ProductService } from '@services/product.service';
 import { ProductSpecificationsComponent } from './components/product-specifications/product-specifications.component';
 
 @Component({

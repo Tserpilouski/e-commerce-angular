@@ -1,10 +1,10 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../models/products/product.model';
-import { PaginationMode } from '../../shared/components/pagination-wrapper/models/pagination-mode.enum';
-import { PagedQueryResponse } from '../../models/common/paged-query-response.model';
-import { PaginationWrapperComponent } from '../../shared/components/pagination-wrapper/pagination-wrapper.component';
-import { ProductGaleriaComponent } from '../home/components/galeria/galeria';
+import { ProductService } from '@services/product.service';
+import { Product } from '@models/products/product.model';
+import { PaginationMode } from '@shared/components/pagination-wrapper/models/pagination-mode.enum';
+import { PagedQueryResponse } from '@models/common/paged-query-response.model';
+import { PaginationWrapperComponent } from '@shared/components/pagination-wrapper/pagination-wrapper.component';
+import { ProductGaleriaComponent } from '@pages/home/components/galeria/galeria';
 
 @Component({
   selector: 'ec-product-list',

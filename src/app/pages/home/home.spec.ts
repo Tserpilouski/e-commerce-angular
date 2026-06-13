@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { signal, WritableSignal } from '@angular/core';
 import { vi } from 'vitest';
 import { Home } from './home';
-import { ProductService } from '../../services/product.service';
+import { ProductService } from '@services/product.service';
 
 describe('Home', () => {
   let component: Home;

@@ -1,4 +1,4 @@
-import { AttributeDefinition } from '../attributes/attribute-definition.model';
+import { AttributeDefinition } from '@models/attributes/attribute-definition.model';
 
 export interface ProductType {
   id: string;
