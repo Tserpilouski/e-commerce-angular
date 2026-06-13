@@ -1,7 +1,4 @@
-import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { ProductService } from '@services/product.service';
 import { Product } from '@models/products/product.model';
 import { PaginationMode } from '@shared/components/pagination-wrapper/models/pagination-mode.enum';
