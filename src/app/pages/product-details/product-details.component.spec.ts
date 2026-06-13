@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductDetailsComponent } from './product-details.component';
-import { ProductService } from '../../services/product.service';
+import { ProductService } from '@services/product.service';
 import { signal, WritableSignal } from '@angular/core';
 import { vi } from 'vitest';
 

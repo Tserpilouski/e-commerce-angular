@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { Attribute } from '../../../../models/attributes/attribute.model';
+import { Attribute } from '@models/attributes/attribute.model';
 
 export interface SpecificationItem {
   label: string;

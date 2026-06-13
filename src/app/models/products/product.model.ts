@@ -1,4 +1,4 @@
-import { LocalizedString } from '../common/localized-string.model';
+import { LocalizedString } from '@models/common/localized-string.model';
 import { ProductVariant } from './product-variant.model';
 import { ProductTypeReference } from './product-type-reference.model';
 

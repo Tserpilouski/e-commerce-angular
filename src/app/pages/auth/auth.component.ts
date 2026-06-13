@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TabsComponent } from '../../shared/components/tabs/tabs.component';
-import { TabOption } from '../../shared/components/tabs/models/tabOption.model';
-import { LogoComponent } from '../../shared/components/logo/logo.component';
+import { TabsComponent } from '@shared/components/tabs/tabs.component';
+import { TabOption } from '@shared/components/tabs/models/tabOption.model';
+import { LogoComponent } from '@shared/components/logo/logo.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthTab } from './model/auth-tab.enum';
