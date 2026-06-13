@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { LogoComponent } from '../logo/logo.component';
+import { LogoComponent } from '@shared/components/logo/logo.component';
 
 @Component({
   selector: 'ec-header',

@@ -2,6 +2,8 @@
 
 A modern e-commerce web application built with Angular 21. It features a component-based architecture using standalone components and Angular Signals for reactive state management. The project follows strict code quality standards enforced by ESLint, Prettier, and Conventional Commits.
 
+Please refer to the [Contribution Guide](CONTRIBUTING.md) before making any code modifications.
+
 ## Team
 
 | Name               | GitHub                                           |

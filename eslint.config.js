@@ -34,6 +34,18 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../*'],
+              message:
+                'Please use path aliases (e.g. @core/*, @shared/*, @models/*, @services/*, @pages/*) instead of relative parent imports.',
+            },
+          ],
+        },
+      ],
     },
   },
   {
