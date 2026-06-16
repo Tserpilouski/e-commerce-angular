@@ -14,24 +14,47 @@ export class ProductService {
   readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
 
-  async fetchProducts(limit = 20, offset = 0): Promise<Product[]> {
-    const data = await this.apiClient.ecomFetchWithState<ProductPagedQueryResponse>(
-      `product-projections?limit=${limit}&offset=${offset}`,
-      this.loading,
-      this.error,
-    );
-    this.products.set(data.results);
-    return data.results;
-  }
+  async fetchPagedProducts(limit = 20, offset = 0, search?: string): Promise<ProductPagedQueryResponse> {
+    const query = search?.trim().toLowerCase();
 
-  async fetchPagedProducts(limit = 20, offset = 0): Promise<ProductPagedQueryResponse> {
-    const data = await this.apiClient.ecomFetchWithState<ProductPagedQueryResponse>(
-      `product-projections?limit=${limit}&offset=${offset}`,
+    if (query) {
+      // Fetch a larger batch for client-side filtering because Commercetools
+      // does not natively support partial string matches without SearchKeywords.
+      const response = await this.apiClient.ecomFetchWithState<ProductPagedQueryResponse>(
+        'product-projections',
+        this.loading,
+        this.error,
+        { params: { limit: 100, offset: 0 } },
+      );
+
+      const allProducts = response.results ?? [];
+      const filteredProducts = allProducts.filter(
+        (p) => p.name?.['en']?.toLowerCase().includes(query) || p.description?.['en']?.toLowerCase().includes(query),
+      );
+
+      // Apply manual pagination to the filtered results
+      const paginatedResults = filteredProducts.slice(offset, offset + limit);
+
+      this.products.set(paginatedResults);
+      return {
+        ...response,
+        limit,
+        offset,
+        count: paginatedResults.length,
+        total: filteredProducts.length,
+        results: paginatedResults,
+      };
+    }
+
+    const response = await this.apiClient.ecomFetchWithState<ProductPagedQueryResponse>(
+      'product-projections',
       this.loading,
       this.error,
+      { params: { limit, offset } },
     );
-    this.products.set(data.results);
-    return data;
+
+    this.products.set(response.results ?? []);
+    return response;
   }
 
   async fetchProductByKey(key: string): Promise<Product> {
@@ -59,7 +82,7 @@ export class ProductService {
     }
   }
 
-  async searchProducts() {
-    // TODO: Implement product search functionality
+  async searchProducts(query: string, limit = 20, offset = 0): Promise<ProductPagedQueryResponse> {
+    return this.fetchPagedProducts(limit, offset, query);
   }
 }

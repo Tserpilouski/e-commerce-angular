@@ -11,5 +11,5 @@ import { Product } from '@models/products/product.model';
 })
 export class ProductGaleriaComponent {
   products = input.required<Product[]>();
-  addToCard = output<Product>();
+  addToCart = output<Product>();
 }

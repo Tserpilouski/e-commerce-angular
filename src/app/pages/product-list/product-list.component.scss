@@ -2,6 +2,72 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.search-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  animation: fadeIn 0.3s ease-out;
+
+  .search-banner__content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .search-banner__icon {
+    color: #4f46e5;
+    font-size: 1.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  .search-banner__text {
+    font-size: 1rem;
+    color: #475569;
+
+    strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+  }
+
+  .search-banner__clear {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #cbd5e1;
+      color: #0f172a;
+      transform: scale(1.1);
+    }
+
+    mat-icon {
+      font-size: 1.25rem;
+      height: 1.25rem;
+      width: 1.25rem;
+    }
+  }
 }
 
 .demo-section {
@@ -13,6 +79,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
+  margin-bottom: 2rem;
 
   h2 {
     font-size: 1.125rem;
@@ -23,5 +91,16 @@
     letter-spacing: 0.05em;
     border-left: 4px solid #4f46e5;
     padding-left: 0.75rem;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

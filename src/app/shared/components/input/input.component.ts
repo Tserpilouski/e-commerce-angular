@@ -1,4 +1,4 @@
-import { Component, forwardRef, input } from '@angular/core';
+import { Component, forwardRef, input, output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,8 +28,12 @@ export class InputComponent implements ControlValueAccessor {
   placeholder = input<string>('');
   label = input<string>('');
   prefixIcon = input<string>('');
+  prefixIconClick = output<void>();
   suffixIcon = input<string>('');
+  suffixIconClick = output<void>();
+
   status = input<InputStatus>('default');
+  subscriptSizing = input<'fixed' | 'dynamic'>('fixed');
 
   value = '';
   isDisabled = false;

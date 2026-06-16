@@ -33,7 +33,7 @@
     } @else {
       <div class="trending__grid">
         @for (product of products(); track product.id) {
-          <ec-card [product]="product" (addtoCard)="onAddToCart($event)" />
+          <ec-card [product]="product" (addToCart)="onAddToCart($event)" />
         }
       </div>
     }

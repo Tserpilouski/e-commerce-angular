@@ -1,0 +1,9 @@
+<form (ngSubmit)="onSubmit()">
+  <ec-input
+    [(ngModel)]="searchQuery"
+    (suffixIconClick)="onSubmit()"
+    name="searchQuery"
+    placeholder="Search for products"
+    suffixIcon="search"
+    subscriptSizing="dynamic" />
+</form>

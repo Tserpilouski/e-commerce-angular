@@ -23,7 +23,7 @@ export class AuthService {
     const clientId = import.meta.env.NG_APP_CTP_CLIENT_ID;
     const clientSecret = import.meta.env.NG_APP_CTP_CLIENT_SECRET;
     const authUrl = import.meta.env.NG_APP_CTP_AUTH_URL;
-    const scope = import.meta.env.NG_APP_CTP_SCOPES;
+    const scope = import.meta.env.NG_APP_CTP_SCOPES?.replace(/^"|"$/g, '');
 
     const apiClient = this.injector.get(ApiClientService);
 
