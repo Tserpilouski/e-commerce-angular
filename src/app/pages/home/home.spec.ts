@@ -9,11 +9,11 @@ describe('Home', () => {
   let fixture: ComponentFixture<Home>;
 
   const productServiceMock: {
-    fetchProducts: ReturnType<typeof vi.fn>;
+    fetchPagedProducts: ReturnType<typeof vi.fn>;
     products: WritableSignal<unknown[]>;
     loading: WritableSignal<boolean>;
   } = {
-    fetchProducts: vi.fn(),
+    fetchPagedProducts: vi.fn(),
     products: signal([]),
     loading: signal(false),
   };

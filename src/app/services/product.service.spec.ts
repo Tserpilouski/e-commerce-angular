@@ -29,10 +29,29 @@ describe('ProductService', () => {
     const mockData = { results: [{ id: '1', version: 1, name: { en: 'Product 1' }, masterVariant: { id: 1 } }] };
     apiClientMock.ecomFetch.mockResolvedValue(mockData);
 
-    const products = await service.fetchProducts(10, 0);
-    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections?limit=10&offset=0');
-    expect(products.length).toBe(1);
+    const response = await service.fetchPagedProducts(10, 0);
+    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections', {
+      params: { limit: 10, offset: 0 },
+    });
+    expect(response.results.length).toBe(1);
     expect(service.products().length).toBe(1);
+  });
+
+  it('should fetch a large batch and perform client-side filtering when search parameter is provided', async () => {
+    const mockData = {
+      results: [
+        { id: '1', version: 1, name: { en: 'Quantum Laptops Series 14' }, masterVariant: { id: 1 } },
+        { id: '2', version: 1, name: { en: 'Desktop PC' }, masterVariant: { id: 2 } },
+      ],
+    };
+    apiClientMock.ecomFetch.mockResolvedValue(mockData);
+
+    const response = await service.fetchPagedProducts(10, 0, 'laptop');
+    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections', {
+      params: { limit: 100, offset: 0 },
+    });
+    expect(response.results.length).toBe(1);
+    expect(response.results[0].name['en']).toBe('Quantum Laptops Series 14');
   });
 
   it('should fetch product by key and update selectedProduct signal with expanded productType labels', async () => {

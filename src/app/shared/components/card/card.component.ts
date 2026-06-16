@@ -11,9 +11,9 @@ import { RouterLink } from '@angular/router';
 })
 export class CardComponent {
   product = input.required<Product>();
-  addtoCard = output<Product>();
+  addToCart = output<Product>();
 
-  onAddToCard() {
-    this.addtoCard.emit(this.product());
+  onAddToCart() {
+    this.addToCart.emit(this.product());
   }
 }
