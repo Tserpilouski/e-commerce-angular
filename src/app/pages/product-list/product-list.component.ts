@@ -1,4 +1,7 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '@services/product.service';
 import { Product } from '@models/products/product.model';
 import { PaginationMode } from '@shared/components/pagination-wrapper/models/pagination-mode.enum';
@@ -8,13 +11,18 @@ import { ProductGaleriaComponent } from '@pages/home/components/galeria/galeria'
 
 @Component({
   selector: 'ec-product-list',
-  imports: [PaginationWrapperComponent, ProductGaleriaComponent],
+  imports: [PaginationWrapperComponent, ProductGaleriaComponent, MatIconModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
   readonly PaginationMode = PaginationMode;
   private readonly productService = inject(ProductService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
+  searchQuery = signal<string>('');
 
   numericLoading = signal(false);
   numericResponse = signal<PagedQueryResponse>({
@@ -35,14 +43,22 @@ export class ProductListComponent implements OnInit {
   cumulativeProducts = signal<Product[]>([]);
 
   ngOnInit() {
-    this.onNumericPageChange({ limit: 4, offset: 0 });
-    this.onLoadMore({ limit: 4, offset: 0 }, true);
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const search = params['search'] || '';
+      this.searchQuery.set(search);
+      this.onNumericPageChange({ limit: 4, offset: 0 });
+      this.onLoadMore({ limit: 4, offset: 0 }, true);
+    });
   }
 
   async onNumericPageChange(event: { limit: number; offset: number }) {
     this.numericLoading.set(true);
     try {
-      const response = await this.productService.fetchPagedProducts(event.limit, event.offset);
+      const response = await this.productService.fetchPagedProducts(
+        event.limit,
+        event.offset,
+        this.searchQuery() || undefined,
+      );
       this.numericResponse.set({
         limit: response.limit,
         offset: response.offset,
@@ -61,7 +77,11 @@ export class ProductListComponent implements OnInit {
   async onLoadMore(event: { limit: number; offset: number }, reset = false) {
     this.loadMoreLoading.set(true);
     try {
-      const response = await this.productService.fetchPagedProducts(event.limit, event.offset);
+      const response = await this.productService.fetchPagedProducts(
+        event.limit,
+        event.offset,
+        this.searchQuery() || undefined,
+      );
       this.loadMoreResponse.set({
         limit: response.limit,
         offset: response.offset,
@@ -85,7 +105,14 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  onAddToCard(products?: Product) {
-    console.log('added to card', products);
+  onAddToCart(products?: Product) {
+    console.log('added to cart', products);
+  }
+
+  onClearSearch() {
+    this.router.navigate([], {
+      queryParams: { search: null },
+      queryParamsHandling: 'merge',
+    });
   }
 }

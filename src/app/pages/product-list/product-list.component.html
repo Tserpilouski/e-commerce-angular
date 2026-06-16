@@ -1,4 +1,18 @@
 <div class="demo-grid">
+  @if (searchQuery()) {
+    <div class="search-banner">
+      <div class="search-banner__content">
+        <mat-icon class="search-banner__icon">search</mat-icon>
+        <span class="search-banner__text">
+          Showing results for: <strong>"{{ searchQuery() }}"</strong>
+        </span>
+      </div>
+      <button class="search-banner__clear" (click)="onClearSearch()" aria-label="Clear search">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  }
+
   <!-- Variant 1: Numeric Pagination -->
   <section class="demo-section">
     <h2>Numeric Pagination</h2>
@@ -7,7 +21,7 @@
       [response]="numericResponse()"
       [loading]="numericLoading()"
       (pageChange)="onNumericPageChange($event)">
-      <ec-product-galeria [products]="paginatedProducts()" (addToCard)="onAddToCard($event)" />
+      <ec-product-galeria [products]="paginatedProducts()" (addToCart)="onAddToCart($event)" />
     </ec-pagination-wrapper>
   </section>
 
@@ -19,7 +33,7 @@
       [response]="loadMoreResponse()"
       [loading]="loadMoreLoading()"
       (loadMore)="onLoadMore($event)">
-      <ec-product-galeria [products]="cumulativeProducts()" (addToCard)="onAddToCard($event)" />
+      <ec-product-galeria [products]="cumulativeProducts()" (addToCart)="onAddToCart($event)" />
     </ec-pagination-wrapper>
   </section>
 </div>

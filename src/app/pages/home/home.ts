@@ -18,7 +18,7 @@ export class Home implements OnInit {
   loading = this.productService.loading;
 
   ngOnInit() {
-    this.productService.fetchProducts();
+    this.productService.fetchPagedProducts();
   }
 
   onAddToCart(product: Product): void {
