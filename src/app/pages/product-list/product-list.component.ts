@@ -18,7 +18,7 @@ export class ProductListComponent implements OnInit {
 
   numericLoading = signal(false);
   numericResponse = signal<PagedQueryResponse>({
-    limit: 4,
+    limit: 6,
     offset: 0,
     count: 0,
     total: 0,
@@ -27,7 +27,7 @@ export class ProductListComponent implements OnInit {
 
   loadMoreLoading = signal(false);
   loadMoreResponse = signal<PagedQueryResponse>({
-    limit: 4,
+    limit: 6,
     offset: 0,
     count: 0,
     total: 0,
@@ -35,8 +35,8 @@ export class ProductListComponent implements OnInit {
   cumulativeProducts = signal<Product[]>([]);
 
   ngOnInit() {
-    this.onNumericPageChange({ limit: 4, offset: 0 });
-    this.onLoadMore({ limit: 4, offset: 0 }, true);
+    this.onNumericPageChange({ limit: 6, offset: 0 });
+    this.onLoadMore({ limit: 6, offset: 0 }, true);
   }
 
   async onNumericPageChange(event: { limit: number; offset: number }) {
