@@ -5,6 +5,19 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+:root {
+  --color-success: #62c462;
+  --color-success-bg: #baffba;
+  --color-error: #ff6262;
+  --color-error-bg: #ffbaba;
+  --color-warning: #f0a500;
+  --color-warning-bg: #fff3cd;
+  --color-info: #6262ff;
+  --color-info-bg: #bababf;
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
 html {
   height: 100%;
   @include mat.theme(
@@ -35,4 +48,8 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+}
+
+p {
+  margin: 0;
 }
