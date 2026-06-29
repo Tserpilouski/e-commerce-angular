@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from '@services/product.service';
+import { Category } from '@models/products/category.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -12,9 +13,13 @@ describe('ProductListComponent', () => {
   let fixture: ComponentFixture<ProductListComponent>;
   let productServiceMock: {
     fetchPagedProducts: ReturnType<typeof vi.fn>;
+    fetchCategories: ReturnType<typeof vi.fn>;
     loading: WritableSignal<boolean>;
     error: WritableSignal<string | null>;
     products: WritableSignal<Product[]>;
+    availableBrands: WritableSignal<string[]>;
+    availableAttributes: WritableSignal<Map<string, unknown[]>>;
+    categories: WritableSignal<Category[]>;
   };
   let routerMock: { navigate: ReturnType<typeof vi.fn> };
   let queryParamsSubject: BehaviorSubject<Record<string, string>>;
@@ -33,9 +38,13 @@ describe('ProductListComponent', () => {
   beforeEach(async () => {
     productServiceMock = {
       fetchPagedProducts: vi.fn().mockResolvedValue(mockProductListResponse),
+      fetchCategories: vi.fn().mockResolvedValue(undefined),
       loading: signal(false),
       error: signal(null),
       products: signal([]),
+      availableBrands: signal([]),
+      availableAttributes: signal(new Map()),
+      categories: signal([]),
     };
 
     routerMock = {
@@ -75,7 +84,7 @@ describe('ProductListComponent', () => {
     await fixture.whenStable();
 
     expect(component.searchQuery()).toBe('Quantum');
-    expect(productServiceMock.fetchPagedProducts).toHaveBeenCalledWith(4, 0, 'Quantum');
+    expect(productServiceMock.fetchPagedProducts).toHaveBeenCalledWith(9, 0, 'Quantum', undefined);
   });
 
   it('should navigate and clear query params on search clear', () => {
