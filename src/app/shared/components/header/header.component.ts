@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { LogoComponent } from '@shared/components/logo/logo.component';
+import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
 
 @Component({
   selector: 'ec-header',

@@ -1,39 +1,20 @@
-<div class="demo-grid">
-  @if (searchQuery()) {
-    <div class="search-banner">
-      <div class="search-banner__content">
-        <mat-icon class="search-banner__icon">search</mat-icon>
-        <span class="search-banner__text">
-          Showing results for: <strong>"{{ searchQuery() }}"</strong>
-        </span>
-      </div>
-      <button class="search-banner__clear" (click)="onClearSearch()" aria-label="Clear search">
-        <mat-icon>close</mat-icon>
-      </button>
+<div class="product-list__container">
+  <div class="product-list__grid">
+    <aside class="product-list__sidebar">
+      <ec-product-filters [initialFilters]="filters()" (filtersChanged)="onFiltersChanged($event)"></ec-product-filters>
+    </aside>
+
+    <div class="product-list__main-content">
+      <section class="product-list__section">
+        <h2>Numeric Pagination</h2>
+        <ec-pagination-wrapper
+          [mode]="PaginationMode.Numeric"
+          [response]="numericResponse()"
+          [loading]="numericLoading()"
+          (pageChange)="onNumericPageChange($event)">
+          <ec-product-galeria [products]="paginatedProducts()" (addToCart)="onAddToCart($event)" />
+        </ec-pagination-wrapper>
+      </section>
     </div>
-  }
-
-  <!-- Variant 1: Numeric Pagination -->
-  <section class="demo-section">
-    <h2>Numeric Pagination</h2>
-    <ec-pagination-wrapper
-      [mode]="PaginationMode.Numeric"
-      [response]="numericResponse()"
-      [loading]="numericLoading()"
-      (pageChange)="onNumericPageChange($event)">
-      <ec-product-galeria [products]="paginatedProducts()" (addToCart)="onAddToCart($event)" />
-    </ec-pagination-wrapper>
-  </section>
-
-  <!-- Variant 2: Load More Products -->
-  <section class="demo-section">
-    <h2>Load More Actions</h2>
-    <ec-pagination-wrapper
-      [mode]="PaginationMode.LoadMore"
-      [response]="loadMoreResponse()"
-      [loading]="loadMoreLoading()"
-      (loadMore)="onLoadMore($event)">
-      <ec-product-galeria [products]="cumulativeProducts()" (addToCart)="onAddToCart($event)" />
-    </ec-pagination-wrapper>
-  </section>
+  </div>
 </div>
