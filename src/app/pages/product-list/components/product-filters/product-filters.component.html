@@ -1,0 +1,109 @@
+<div class="filters-container">
+  <section class="filter-section search-section">
+    <ec-product-search-input></ec-product-search-input>
+  </section>
+
+  <mat-accordion [multi]="true" class="filters-accordion">
+    @if (categories().length > 0) {
+      <mat-expansion-panel [expanded]="true" class="filter-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>CATEGORIES</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-selection-list
+          [multiple]="false"
+          (selectionChange)="onCategorySelection($event)"
+          hideSingleSelectionIndicator="true"
+          class="category-list">
+          <mat-list-option [value]="null" [selected]="selectedCategoryId === null"> All Categories </mat-list-option>
+          @for (category of getVisibleItems(categories(), 'categories'); track category.id) {
+            <mat-list-option [value]="category.id" [selected]="selectedCategoryId === category.id">
+              {{ category.name['en'] }}
+            </mat-list-option>
+          }
+        </mat-selection-list>
+
+        @if (categories().length > 4) {
+          <button mat-button color="primary" class="see-more-btn" (click)="toggleExpand('categories')">
+            {{ expandedFilters['categories'] ? 'Show Less' : 'See More' }}
+          </button>
+        }
+      </mat-expansion-panel>
+    }
+
+    <mat-expansion-panel [expanded]="true" class="filter-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>PRICE RANGE</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="price-slider-container">
+        <mat-slider [min]="sliderMin" [max]="sliderMax" step="10" class="price-slider">
+          <input matSliderStartThumb [(ngModel)]="priceMin" (change)="onPriceChange()" />
+          <input matSliderEndThumb [(ngModel)]="priceMax" (change)="onPriceChange()" />
+        </mat-slider>
+      </div>
+
+      <div class="price-inputs">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="price-form-field">
+          <mat-label>Min Price</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" [(ngModel)]="priceMin" (change)="onPriceChange()" />
+        </mat-form-field>
+        <span class="separator">-</span>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="price-form-field">
+          <mat-label>Max Price</mat-label>
+          <span matTextPrefix>$&nbsp;</span>
+          <input matInput type="number" [(ngModel)]="priceMax" (change)="onPriceChange()" />
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+
+    @if (availableBrands().length > 0) {
+      <mat-expansion-panel [expanded]="true" class="filter-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>BRAND</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="checkbox-list">
+          @for (brand of getVisibleItems(availableBrands(), 'brands'); track brand) {
+            <mat-checkbox [checked]="selectedBrands.has(brand)" (change)="toggleBrand(brand, $event.checked)">
+              {{ brand }}
+            </mat-checkbox>
+          }
+        </div>
+
+        @if (availableBrands().length > 4) {
+          <button mat-button color="primary" class="see-more-btn" (click)="toggleExpand('brands')">
+            {{ expandedFilters['brands'] ? 'Show Less' : 'See More' }}
+          </button>
+        }
+      </mat-expansion-panel>
+    }
+
+    @if (selectedCategoryId) {
+      @for (attr of availableAttributes().entries(); track attr[0]) {
+        <mat-expansion-panel [expanded]="true" class="filter-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ formatAttributeName(attr[0]) }}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="checkbox-list">
+            @for (val of getVisibleItems(attr[1], attr[0]); track val) {
+              <mat-checkbox
+                [checked]="selectedDynamicFilters[attr[0]]?.has(val + '')"
+                (change)="toggleDynamicFilter(attr[0], val + '', $event.checked)">
+                {{ val === true || val === 'true' ? 'Yes' : val === false || val === 'false' ? 'No' : val }}
+              </mat-checkbox>
+            }
+          </div>
+
+          @if (attr[1].length > 4) {
+            <button mat-button color="primary" class="see-more-btn" (click)="toggleExpand(attr[0])">
+              {{ expandedFilters[attr[0]] ? 'Show Less' : 'See More' }}
+            </button>
+          }
+        </mat-expansion-panel>
+      }
+    }
+  </mat-accordion>
+</div>

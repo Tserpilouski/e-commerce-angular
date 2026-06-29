@@ -30,25 +30,22 @@ describe('ProductService', () => {
     apiClientMock.ecomFetch.mockResolvedValue(mockData);
 
     const response = await service.fetchPagedProducts(10, 0);
-    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections', {
-      params: { limit: 10, offset: 0 },
+    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections/search', {
+      params: { limit: 10, offset: 0, expand: 'productType' },
     });
     expect(response.results.length).toBe(1);
     expect(service.products().length).toBe(1);
   });
 
-  it('should fetch a large batch and perform client-side filtering when search parameter is provided', async () => {
+  it('should perform search query on the backend when search parameter is provided', async () => {
     const mockData = {
-      results: [
-        { id: '1', version: 1, name: { en: 'Quantum Laptops Series 14' }, masterVariant: { id: 1 } },
-        { id: '2', version: 1, name: { en: 'Desktop PC' }, masterVariant: { id: 2 } },
-      ],
+      results: [{ id: '1', version: 1, name: { en: 'Quantum Laptops Series 14' }, masterVariant: { id: 1 } }],
     };
     apiClientMock.ecomFetch.mockResolvedValue(mockData);
 
     const response = await service.fetchPagedProducts(10, 0, 'laptop');
-    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections', {
-      params: { limit: 100, offset: 0 },
+    expect(apiClientMock.ecomFetch).toHaveBeenCalledWith('product-projections/search', {
+      params: { limit: 10, offset: 0, expand: 'productType', 'text.en': 'laptop' },
     });
     expect(response.results.length).toBe(1);
     expect(response.results[0].name['en']).toBe('Quantum Laptops Series 14');
