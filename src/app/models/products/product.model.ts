@@ -13,4 +13,5 @@ export interface Product {
   masterVariant: ProductVariant;
   variants?: ProductVariant[];
   published?: boolean;
+  categories?: { typeId: 'category'; id: string }[];
 }
