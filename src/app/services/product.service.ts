@@ -1,6 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ProductPagedQueryResponse } from '@models/products/product-paged-query-response.model';
-import { Product } from '@models/products/product.model';
 import { ProductFilters } from '@models/products/product-filters.model';
 import { Category } from '@models/products/category.model';
 import { ProductVariant } from '@models/products/product-variant.model';
