@@ -16,8 +16,15 @@
         <span class="header__cart-badge">{{ itemCount() }}</span>
       }
     </a>
-    <a class="header__icon-btn" routerLink="/login" aria-label="Account">
-      <mat-icon>account_circle</mat-icon>
-    </a>
+    @if (isAuthenticated()) {
+      <a class="header__user" routerLink="/profile">
+        <mat-icon>account_circle</mat-icon>
+        Hi,{{ currentUser()?.firstName || currentUser()?.email }}
+      </a>
+    } @else {
+      <a class="header__icon-btn" routerLink="/login" aria-label="Account">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+    }
   </div>
 </header>
