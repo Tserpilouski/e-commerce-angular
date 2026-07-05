@@ -1,0 +1,22 @@
+<nav>
+  <ul class="profile__nav">
+    <li>
+      <a class="profile__nav-link" routerLink="/profile/account" routerLinkActive="header__nav-link--active">Account</a>
+    </li>
+    <li>
+      <a class="profile__nav-link" routerLink="/profile/dashboard" routerLinkActive="header__nav-link--active"
+        >Dashboard</a
+      >
+    </li>
+    <li>
+      <a class="profile__nav-link" routerLink="/profile/orders" routerLinkActive="header__nav-link--active">Orders</a>
+    </li>
+    <hr class="profile__nav-divider" />
+    <li>
+      <a class="profile__nav-link" routerLink="/profile/logout" routerLinkActive="header__nav-link--active">Log out</a>
+    </li>
+  </ul>
+</nav>
+<div class="profile__content">
+  <router-outlet />
+</div>
