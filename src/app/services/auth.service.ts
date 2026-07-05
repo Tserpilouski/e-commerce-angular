@@ -1,8 +1,10 @@
-import { computed, inject, Injectable, Injector, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, Injector, signal } from '@angular/core';
 import { AuthTokenResponse } from '@models/auth/auth.model';
 import { Customer } from '@shared/models/customer.model';
 import { CustomerSignInResult } from '@shared/models/customer-sign-in-result.model';
 import { ApiClientService } from './api-client.service';
+
+const CURRENT_USER_STORAGE_KEY = 'currentUser';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +14,33 @@ export class AuthService {
   private accessToken: string | null = null;
   private tokenExpiresAt = 0;
 
-  readonly currentUser = signal<Customer | null>(null);
+  readonly currentUser = signal<Customer | null>(this.readStoredUser());
   readonly isAuthenticated = computed(() => this.currentUser() !== null);
+
+  constructor() {
+    effect(() => {
+      const user = this.currentUser();
+      if (user) {
+        sessionStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(user));
+      } else {
+        sessionStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+      }
+    });
+  }
+
+  private readStoredUser(): Customer | null {
+    const raw = sessionStorage.getItem(CURRENT_USER_STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(raw) as Customer;
+    } catch {
+      sessionStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+      return null;
+    }
+  }
 
   async getAccessToken(): Promise<string> {
     if (this.accessToken && Date.now() < this.tokenExpiresAt) {

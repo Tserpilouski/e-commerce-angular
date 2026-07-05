@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { LogoComponent } from '@shared/components/logo/logo.component';
 import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
 import { CartService } from '@services/cart';
+import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   selector: 'ec-header',
@@ -15,4 +17,9 @@ export class HeaderComponent {
   private cartService = inject(CartService);
 
   readonly itemCount = this.cartService.itemCount;
+
+  private readonly authService = inject(AuthService);
+
+  readonly currentUser = this.authService.currentUser;
+  readonly isAuthenticated = this.authService.isAuthenticated;
 }
