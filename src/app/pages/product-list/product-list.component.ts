@@ -1,5 +1,9 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '@services/product.service';
+import { CartService } from '@services/cart';
 import { Product } from '@models/products/product.model';
 import { PaginationMode } from '@shared/components/pagination-wrapper/models/pagination-mode.enum';
 import { PagedQueryResponse } from '@models/common/paged-query-response.model';
@@ -15,6 +19,7 @@ import { ProductGaleriaComponent } from '@pages/home/components/galeria/galeria'
 export class ProductListComponent implements OnInit {
   readonly PaginationMode = PaginationMode;
   private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
@@ -102,8 +107,10 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  onAddToCart(products?: Product) {
-    console.log('added to cart', products);
+  onAddToCart(product?: Product) {
+    if (product) {
+      this.cartService.addProduct(product);
+    }
   }
 
   onClearSearch() {
