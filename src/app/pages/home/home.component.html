@@ -1,1 +1,47 @@
-<p>Hello World</p>
+<div class="home">
+  <section class="hero">
+    <div class="hero__content">
+      <h1 class="hero__title">Next-Gen Power.<br />Unbound.</h1>
+      <p class="hero__subtitle">Experience raw performance with our latest series of gaming laptops.</p>
+      <button class="hero__btn">Shop Now</button>
+    </div>
+    <div class="hero__image">
+      <img
+        src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=800&q=80"
+        alt="Gaming Laptop" />
+    </div>
+  </section>
+
+  <section class="categories">
+    <h2 class="categories__title">Shop by Category</h2>
+    <div class="categories__grid">
+      @for (category of categories(); track category.name) {
+        <div class="category-card">
+          <span class="category-card__name">{{ category.name }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="trending">
+    <div class="trending__header">
+      <h2 class="trending__title">Trending Now</h2>
+      <a href="#" class="trending__view-all">View All</a>
+    </div>
+    @if (loading()) {
+      <p>Loading...</p>
+    } @else {
+      <div class="trending__grid">
+        @for (product of products(); track product.id) {
+          <ec-card [product]="product" (addtoCard)="onAddToCart($event)" />
+        }
+      </div>
+    }
+  </section>
+
+  <section class="enterprise">
+    <h2 class="enterprise__title">Enterprise Solutions</h2>
+    <p class="enterprise__subtitle">Scale your infrastructure with enterprise-grade hardware.</p>
+    <button class="enterprise__btn">Contact Sales</button>
+  </section>
+</div>
