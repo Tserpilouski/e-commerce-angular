@@ -1,0 +1,93 @@
+<div class="order-summary">
+  <h2 class="order-summary__title">Order Summary</h2>
+
+  <div class="order-summary__items">
+    @for (item of cart().items; track item.productId) {
+      <div class="order-item">
+        <div class="order-item__image-wrap">
+          <img [src]="item.imageUrl || 'assets/placeholder.png'" [alt]="item.name" class="order-item__image" />
+          <span class="order-item__qty">{{ item.quantity }}</span>
+        </div>
+        <div class="order-item__details">
+          <p class="order-item__name">{{ item.name }}</p>
+          <p class="order-item__variant">{{ item.variant }}</p>
+        </div>
+        <p class="order-item__price">
+          {{ formatPrice(item.price.centAmount * item.quantity, item.price.fractionDigits) | currency }}
+        </p>
+      </div>
+    }
+
+    @if (cart().items.length === 0) {
+      <p class="order-summary__empty">Your cart is empty</p>
+    }
+  </div>
+
+  <hr class="order-summary__divider" />
+
+  <div class="order-summary__discount">
+    <ec-input
+      [formControl]="discountControl"
+      placeholder="Discount code"
+      [status]="discountError() ? 'error' : discountSuccess() ? 'success' : 'default'" />
+    <ec-button label="Apply" variant="outline" (btnClick)="applyDiscount()" />
+  </div>
+
+  @if (discountError()) {
+    <p class="order-summary__error">{{ discountError() }}</p>
+  }
+
+  <hr class="order-summary__divider" />
+
+  <div class="order-summary__totals">
+    <div class="order-summary__row">
+      <span>Subtotal</span>
+      <span>{{ formatPrice(cart().subtotal.centAmount, cart().subtotal.fractionDigits) | currency }}</span>
+    </div>
+
+    @if (cart().discountAmount && cart().discountAmount!.centAmount > 0) {
+      <div class="order-summary__row order-summary__row--discount">
+        <span>Discount ({{ cart().discountCode }})</span>
+        <span
+          >-{{ formatPrice(cart().discountAmount!.centAmount, cart().discountAmount!.fractionDigits) | currency }}</span
+        >
+      </div>
+    }
+
+    <div class="order-summary__row">
+      <span>Shipping</span>
+      <span>
+        @if (cart().shippingCost.centAmount === 0) {
+          Free
+        } @else {
+          {{ formatPrice(cart().shippingCost.centAmount, cart().shippingCost.fractionDigits) | currency }}
+        }
+      </span>
+    </div>
+
+    <div class="order-summary__row">
+      <span>Estimated taxes</span>
+      <span>{{ formatPrice(cart().estimatedTax.centAmount, cart().estimatedTax.fractionDigits) | currency }}</span>
+    </div>
+  </div>
+
+  <div class="order-summary__total">
+    <span class="order-summary__total-label">Total</span>
+    <div class="order-summary__total-amount">
+      <span class="order-summary__currency">{{ cart().total.currencyCode }}</span>
+      <span class="order-summary__price">
+        {{ formatPrice(cart().total.centAmount, cart().total.fractionDigits) | currency: 'USD' : 'symbol' : '1.2-2' }}
+      </span>
+    </div>
+  </div>
+
+  <button class="order-summary__place-order" (click)="placeOrder()">
+    <mat-icon class="order-summary__lock-icon">lock</mat-icon>
+    Place Order
+  </button>
+
+  <p class="order-summary__secure">
+    <mat-icon class="order-summary__secure-icon">lock</mat-icon>
+    Secure encrypted checkout
+  </p>
+</div>

@@ -1,0 +1,140 @@
+<div class="checkout-page">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="checkout-page__form">
+    <div class="checkout-section">
+      <div class="checkout-section__header">
+        <span class="checkout-section__step">1</span>
+        <h2 class="checkout-section__title">Contact Information</h2>
+        <a class="checkout-section__link" routerLink="/login">Already have an account? Log in</a>
+      </div>
+      <div formGroupName="contact" class="checkout-section__fields">
+        <div class="checkout-field">
+          <span class="checkout-label">Email Address</span>
+          <ec-input formControlName="email" placeholder="Enter your email" />
+        </div>
+        <label class="checkout-checkbox">
+          <input type="checkbox" formControlName="newsletter" />
+          <span>Keep me up to date on news and exclusive offers</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="checkout-section">
+      <div class="checkout-section__header">
+        <span class="checkout-section__step">2</span>
+        <h2 class="checkout-section__title">Shipping Address</h2>
+      </div>
+      <div formGroupName="shipping" class="checkout-section__fields">
+        <div class="checkout-row">
+          <div class="checkout-field">
+            <span class="checkout-label">First Name</span>
+            <ec-input formControlName="firstName" />
+          </div>
+          <div class="checkout-field">
+            <span class="checkout-label">Last Name</span>
+            <ec-input formControlName="lastName" />
+          </div>
+        </div>
+        <div class="checkout-field">
+          <span class="checkout-label">Address</span>
+          <ec-input formControlName="address" placeholder="Street address or P.O. Box" />
+        </div>
+        <div class="checkout-field">
+          <span class="checkout-label">Apartment, suite, etc. (optional)</span>
+          <ec-input formControlName="apartment" />
+        </div>
+        <div class="checkout-row">
+          <div class="checkout-field">
+            <span class="checkout-label">City</span>
+            <ec-input formControlName="city" />
+          </div>
+          <div class="checkout-field">
+            <label class="checkout-label" for="state-select">State / Province</label>
+            <select id="state-select" formControlName="state" class="checkout-select">
+              <option value="">Select a state</option>
+              @for (state of states; track state.value) {
+                <option [value]="state.value">{{ state.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        <div class="checkout-field checkout-field--half">
+          <span class="checkout-label">ZIP / Postal Code</span>
+          <ec-input formControlName="zip" />
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-section">
+      <div class="checkout-section__header">
+        <span class="checkout-section__step">3</span>
+        <h2 class="checkout-section__title">Shipping Method</h2>
+      </div>
+      <div class="shipping-methods">
+        <div
+          class="shipping-method"
+          [class.shipping-method--selected]="shippingMethod() === 'standard'"
+          role="radio"
+          tabindex="0"
+          [attr.aria-checked]="shippingMethod() === 'standard'"
+          (click)="selectShippingMethod('standard')"
+          (keydown.enter)="selectShippingMethod('standard')"
+          (keydown.space)="selectShippingMethod('standard')">
+          <div class="shipping-method__info">
+            <p class="shipping-method__name">Standard Shipping</p>
+            <p class="shipping-method__desc">3-5 business days</p>
+          </div>
+          <span class="shipping-method__price">Free</span>
+        </div>
+        <div
+          class="shipping-method"
+          [class.shipping-method--selected]="shippingMethod() === 'express'"
+          role="radio"
+          tabindex="0"
+          [attr.aria-checked]="shippingMethod() === 'express'"
+          (click)="selectShippingMethod('express')"
+          (keydown.enter)="selectShippingMethod('express')"
+          (keydown.space)="selectShippingMethod('express')">
+          <div class="shipping-method__info">
+            <p class="shipping-method__name">Express Shipping</p>
+            <p class="shipping-method__desc">1-2 business days</p>
+          </div>
+          <span class="shipping-method__price">$15.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-section">
+      <div class="checkout-section__header">
+        <span class="checkout-section__step">4</span>
+        <h2 class="checkout-section__title">Payment</h2>
+      </div>
+      <div formGroupName="payment" class="checkout-section__fields">
+        <div class="checkout-field">
+          <div class="payment-card-row">
+            <span class="checkout-label">Credit Card</span>
+            <div class="payment-cards">
+              <span class="payment-card-icon">VISA</span>
+              <span class="payment-card-icon">MC</span>
+            </div>
+          </div>
+          <ec-input formControlName="cardNumber" placeholder="Card number" prefixIcon="credit_card" />
+        </div>
+        <div class="checkout-row">
+          <div class="checkout-field">
+            <ec-input formControlName="expiry" placeholder="MM / YY" />
+          </div>
+          <div class="checkout-field">
+            <ec-input formControlName="cvc" placeholder="CVC" suffixIcon="help_outline" />
+          </div>
+        </div>
+        <div class="checkout-field">
+          <ec-input formControlName="nameOnCard" placeholder="Name on card" />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <aside class="checkout-page__summary">
+    <ec-order-summary (orderPlaced)="onSubmit()" />
+  </aside>
+</div>

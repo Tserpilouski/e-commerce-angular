@@ -1,8 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ProductPagedQueryResponse } from '@models/products/product-paged-query-response.model';
 import { Product } from '@models/products/product.model';
-import { ProductPagedQueryResponse } from '@models/products/product-paged-query-response.model';
-import { Product } from '@models/products/product.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({

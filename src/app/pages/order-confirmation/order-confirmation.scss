@@ -1,0 +1,162 @@
+:host {
+  display: block;
+  background: #f3f4f6;
+  min-height: 100vh;
+}
+
+.confirmation {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &__icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    background: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #111827;
+    margin: 0 0 16px;
+    line-height: 1.1;
+  }
+
+  &__subtitle {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin: 0 0 40px;
+    line-height: 1.6;
+  }
+
+  &__card {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  &__meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+
+    @media (max-width: 560px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__meta-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #9ca3af;
+  }
+
+  &__meta-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+
+    &--accent {
+      color: #4f46e5;
+    }
+  }
+
+  &__divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 20px 0;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__continue {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #111827;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+}
+
+.confirmation-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 12px;
+
+  &__image-wrap {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #e5e7eb;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 2px;
+  }
+
+  &__qty {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  &__price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111827;
+    white-space: nowrap;
+  }
+}
