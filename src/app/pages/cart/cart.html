@@ -1,0 +1,84 @@
+<div class="cart-page">
+  <h1 class="cart-page__title">Your Cart</h1>
+
+  @if (cart().items.length === 0) {
+    <div class="cart-empty">
+      <p class="cart-empty__text">Your cart is empty</p>
+      <a class="cart-empty__link" routerLink="/product-list">Continue Shopping</a>
+    </div>
+  } @else {
+    <div class="cart-page__layout">
+      <div class="cart-page__items">
+        @for (item of cart().items; track item.productId) {
+          <ec-cart-card
+            [item]="item"
+            (quantityChange)="onQuantityChange(item.productId, $event)"
+            (remove)="onRemove(item.productId)" />
+        }
+      </div>
+
+      <aside class="cart-summary">
+        <h2 class="cart-summary__title">Order Summary</h2>
+
+        <div class="cart-summary__row">
+          <span>Subtotal ({{ itemCount() }} items)</span>
+          <span>{{ formatPrice(cart().subtotal.centAmount, cart().subtotal.fractionDigits) | currency }}</span>
+        </div>
+
+        @if (cart().discountAmount && cart().discountAmount!.centAmount > 0) {
+          <div class="cart-summary__row cart-summary__row--discount">
+            <span>Discount ({{ cart().discountCode }})</span>
+            <span
+              >-{{
+                formatPrice(cart().discountAmount!.centAmount, cart().discountAmount!.fractionDigits) | currency
+              }}</span
+            >
+          </div>
+        }
+
+        <div class="cart-summary__row">
+          <span>Shipping</span>
+          <span class="cart-summary__muted">Calculated at checkout</span>
+        </div>
+
+        <div class="cart-summary__row">
+          <span>Tax</span>
+          <span>{{ 0 | currency }}</span>
+        </div>
+
+        <div class="cart-summary__promo">
+          <p class="cart-summary__promo-label">PROMO CODE</p>
+          <div class="cart-summary__promo-row">
+            <ec-input
+              [formControl]="discountControl"
+              placeholder="Enter code"
+              [status]="discountError() ? 'error' : discountSuccess() ? 'success' : 'default'" />
+            <ec-button label="Apply" variant="outline" (btnClick)="applyDiscount()" />
+          </div>
+          @if (discountError()) {
+            <p class="cart-summary__error">{{ discountError() }}</p>
+          }
+        </div>
+
+        <div class="cart-summary__total">
+          <span class="cart-summary__total-label">Total</span>
+          <span class="cart-summary__total-value">
+            {{ formatPrice(displayTotalCents(), cart().subtotal.fractionDigits) | currency }}
+          </span>
+        </div>
+
+        <button class="cart-summary__checkout" (click)="proceedToCheckout()">Proceed to Checkout →</button>
+
+        <p class="cart-summary__secure">Secure encrypted checkout</p>
+      </aside>
+    </div>
+  }
+
+  <ec-modal [open]="pendingRemovalId() !== null" title="Remove item?" (closed)="cancelRemove()">
+    <p>Are you sure you want to remove "{{ pendingItem()?.name }}" from your cart?</p>
+    <div modalFooter class="cart-remove-actions">
+      <ec-button label="Cancel" variant="outline" (btnClick)="cancelRemove()" />
+      <button type="button" class="cart-remove-actions__confirm" (click)="confirmRemove()">Remove</button>
+    </div>
+  </ec-modal>
+</div>

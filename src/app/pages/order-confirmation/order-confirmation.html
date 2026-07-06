@@ -1,0 +1,74 @@
+<div class="confirmation">
+  @if (order(); as o) {
+    <div class="confirmation__icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#fff"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    </div>
+
+    <h1 class="confirmation__title">Thank you for your order!</h1>
+    <p class="confirmation__subtitle">
+      We've received your order and are getting it ready to ship.<br />
+      We'll email you a tracking link once it leaves our warehouse.
+    </p>
+
+    <div class="confirmation__card">
+      <div class="confirmation__meta">
+        <div class="confirmation__meta-item">
+          <span class="confirmation__meta-label">ORDER NUMBER</span>
+          <span class="confirmation__meta-value">#{{ o.orderNumber }}</span>
+        </div>
+        <div class="confirmation__meta-item">
+          <span class="confirmation__meta-label">CONFIRMATION EMAIL</span>
+          <span class="confirmation__meta-value">sent to your inbox</span>
+        </div>
+        <div class="confirmation__meta-item">
+          <span class="confirmation__meta-label">EST. DELIVERY</span>
+          <span class="confirmation__meta-value confirmation__meta-value--accent">
+            {{ o.deliveryFrom }} - {{ o.deliveryTo }}
+          </span>
+        </div>
+      </div>
+
+      <hr class="confirmation__divider" />
+
+      <div class="confirmation__items">
+        @for (item of o.items; track item.productId) {
+          <div class="confirmation-line">
+            <div class="confirmation-line__image-wrap">
+              <img
+                class="confirmation-line__image"
+                [src]="
+                  item.imageUrl ||
+                  'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80'
+                "
+                [alt]="item.name" />
+            </div>
+            <div class="confirmation-line__info">
+              <p class="confirmation-line__name">{{ item.name }}</p>
+              <p class="confirmation-line__qty">Qty: {{ item.quantity }}</p>
+            </div>
+            <span class="confirmation-line__price">
+              {{ formatPrice(item.price.centAmount * item.quantity, item.price.fractionDigits) | currency }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <a class="confirmation__continue" routerLink="/product-list">Continue Shopping</a>
+  } @else {
+    <h1 class="confirmation__title">No recent order</h1>
+    <p class="confirmation__subtitle">You haven't placed an order yet.</p>
+    <a class="confirmation__continue" routerLink="/product-list">Continue Shopping</a>
+  }
+</div>

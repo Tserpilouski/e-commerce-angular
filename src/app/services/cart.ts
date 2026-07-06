@@ -29,6 +29,18 @@ export class CartService {
     });
   }
 
+  setQuantity(productId: string, quantity: number): void {
+    if (quantity < 1) return;
+    this.cart.update((cart) => {
+      const items = cart.items.map((i) => (i.productId === productId ? { ...i, quantity } : i));
+      return this.recalculate({ ...cart, items });
+    });
+  }
+
+  clear(): void {
+    this.cart.set(this.createEmptyCart());
+  }
+
   setShippingMethod(method: 'standard' | 'express'): void {
     this.shippingMethod.set(method);
     this.cart.update((cart) => this.recalculate(cart));

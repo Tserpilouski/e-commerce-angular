@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart';
+import { OrderService } from '../../services/order';
 import { OrderSummaryComponent } from './components/order-summary/order-summary';
 import { InputComponent } from '../../shared/components/input/input.component';
 
@@ -15,6 +16,8 @@ import { InputComponent } from '../../shared/components/input/input.component';
 export class CheckoutComponent {
   private fb = inject(FormBuilder);
   private cartService = inject(CartService);
+  private orderService = inject(OrderService);
+  private router = inject(Router);
 
   readonly shippingMethod = this.cartService.shippingMethod;
 
@@ -102,6 +105,9 @@ export class CheckoutComponent {
       this.form.markAllAsTouched();
       return;
     }
-    console.log('Order placed', this.form.value);
+    const email = this.form.value.contact?.email ?? '';
+    this.orderService.placeOrder(this.cartService.cart(), email);
+    this.cartService.clear();
+    this.router.navigate(['/order-confirmation']);
   }
 }
