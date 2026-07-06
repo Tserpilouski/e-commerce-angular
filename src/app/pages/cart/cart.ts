@@ -28,11 +28,6 @@ export class CartComponent {
   readonly pendingRemovalId = signal<string | null>(null);
   readonly pendingItem = computed(() => this.cart().items.find((i) => i.productId === this.pendingRemovalId()) ?? null);
 
-  readonly displayTotalCents = computed(() => {
-    const c = this.cart();
-    return c.subtotal.centAmount - (c.discountAmount?.centAmount ?? 0);
-  });
-
   formatPrice(centAmount: number, fractionDigits: number): number {
     return centAmount / Math.pow(10, fractionDigits);
   }

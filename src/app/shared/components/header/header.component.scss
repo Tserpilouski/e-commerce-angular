@@ -62,6 +62,7 @@
   }
 
   &__icon-btn {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,5 +81,21 @@
     .material-symbols-outlined {
       font-size: 1.5rem;
     }
+  }
+
+  &__cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 8px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
   }
 }

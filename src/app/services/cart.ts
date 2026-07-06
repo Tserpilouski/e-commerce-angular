@@ -2,6 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { Cart } from '../models/cart/cart.model';
 import { CartItem } from '../models/cart/cart-item.model';
 import { Money } from '../models/common/money.model';
+import { Product } from '../models/products/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -11,6 +12,19 @@ export class CartService {
   readonly cart = signal<Cart>(this.createEmptyCart());
 
   readonly itemCount = computed(() => this.cart().items.reduce((sum, item) => sum + item.quantity, 0));
+
+  addProduct(product: Product, quantity = 1): void {
+    const variant = product.masterVariant;
+    this.addItem({
+      productId: product.id,
+      productKey: product.key ?? product.id,
+      name: product.name['en'] || product.name['ru'] || 'Unnamed Product',
+      variant: variant.key ?? variant.sku ?? '',
+      quantity,
+      price: variant.prices?.[0]?.value ?? { centAmount: 0, currencyCode: 'USD', fractionDigits: 2 },
+      imageUrl: variant.images?.[0]?.url,
+    });
+  }
 
   addItem(item: CartItem): void {
     this.cart.update((cart) => {

@@ -10,9 +10,12 @@
   </nav>
 
   <div class="header__actions">
-    <button class="header__icon-btn" aria-label="Cart">
+    <a class="header__icon-btn" routerLink="/cart" aria-label="Cart">
       <mat-icon>shopping_cart</mat-icon>
-    </button>
+      @if (itemCount() > 0) {
+        <span class="header__cart-badge">{{ itemCount() }}</span>
+      }
+    </a>
     <a class="header__icon-btn" routerLink="/login" aria-label="Account">
       <mat-icon>account_circle</mat-icon>
     </a>

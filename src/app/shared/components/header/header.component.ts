@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { LogoComponent } from '../logo/logo.component';
+import { CartService } from '../../../services/cart';
 
 @Component({
   selector: 'ec-header',
@@ -9,4 +10,8 @@ import { LogoComponent } from '../logo/logo.component';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  private cartService = inject(CartService);
+
+  readonly itemCount = this.cartService.itemCount;
+}

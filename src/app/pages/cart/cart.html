@@ -38,12 +38,18 @@
 
         <div class="cart-summary__row">
           <span>Shipping</span>
-          <span class="cart-summary__muted">Calculated at checkout</span>
+          @if (cart().shippingCost.centAmount === 0) {
+            <span class="cart-summary__muted">Calculated at checkout</span>
+          } @else {
+            <span>{{
+              formatPrice(cart().shippingCost.centAmount, cart().shippingCost.fractionDigits) | currency
+            }}</span>
+          }
         </div>
 
         <div class="cart-summary__row">
           <span>Tax</span>
-          <span>{{ 0 | currency }}</span>
+          <span>{{ formatPrice(cart().estimatedTax.centAmount, cart().estimatedTax.fractionDigits) | currency }}</span>
         </div>
 
         <div class="cart-summary__promo">
@@ -63,7 +69,7 @@
         <div class="cart-summary__total">
           <span class="cart-summary__total-label">Total</span>
           <span class="cart-summary__total-value">
-            {{ formatPrice(displayTotalCents(), cart().subtotal.fractionDigits) | currency }}
+            {{ formatPrice(cart().total.centAmount, cart().total.fractionDigits) | currency }}
           </span>
         </div>
 

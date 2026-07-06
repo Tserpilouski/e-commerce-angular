@@ -1,5 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart';
 import { Product } from '../../models/products/product.model';
 import { PaginationMode } from '../../shared/components/pagination-wrapper/models/pagination-mode.enum';
 import { PagedQueryResponse } from '../../models/common/paged-query-response.model';
@@ -15,6 +16,7 @@ import { ProductGaleriaComponent } from '../../galeria';
 export class ProductListComponent implements OnInit {
   readonly PaginationMode = PaginationMode;
   private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
 
   numericLoading = signal(false);
   numericResponse = signal<PagedQueryResponse>({
@@ -85,7 +87,9 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  onAddToCard(products?: Product) {
-    console.log('added to card', products);
+  onAddToCard(product?: Product) {
+    if (product) {
+      this.cartService.addProduct(product);
+    }
   }
 }
