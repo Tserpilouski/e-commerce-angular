@@ -40,9 +40,9 @@ describe('HeaderComponent', () => {
     expect(labels).toEqual(['Shop', 'About Us']);
   });
 
-  it('should render the cart icon button', () => {
-    const cartBtn = nativeEl.querySelector('button[aria-label="Cart"]');
-    expect(cartBtn).toBeTruthy();
+  it('should render the cart icon link', () => {
+    const cartLink = nativeEl.querySelector('a[aria-label="Cart"]');
+    expect(cartLink).toBeTruthy();
   });
 
   it('should render the account link', () => {
