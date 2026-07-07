@@ -1,19 +1,332 @@
 <div class="product-details">
   @if (loading()) {
-    <div class="product-details__status">
-      <span>Loading specifications...</span>
+    <div class="product-details__loading">
+      <mat-icon class="spinner-icon">sync</mat-icon>
+      <span>Loading product details...</span>
     </div>
   } @else if (error()) {
     <div class="product-details__status product-details__status--error">
+      <mat-icon>error_outline</mat-icon>
       <p>{{ error() }}</p>
     </div>
   } @else if (product()) {
-    <div class="product-details__specs">
-      <ec-product-specifications [attributes]="product()!.masterVariant.attributes" />
-    </div>
-  } @else {
-    <div class="product-details__status">
-      <p>No specifications available.</p>
+    <div class="details-container">
+      <div class="product-main-grid">
+        <div class="product-gallery">
+          <div class="main-image-wrapper">
+            <img [src]="currentImage()" [alt]="product()!.name['en'] || 'Product Image'" class="main-image" />
+          </div>
+          @if (variantImages().length > 1) {
+            <div class="thumbnails-row">
+              @for (img of variantImages(); track img; let idx = $index) {
+                <div
+                  class="thumbnail-wrapper"
+                  [class.thumbnail-wrapper--active]="selectedImageIndex() === idx"
+                  (click)="selectedImageIndex.set(idx)"
+                  (keydown.enter)="selectedImageIndex.set(idx)"
+                  tabindex="0"
+                  role="button">
+                  <img [src]="img" alt="Thumbnail" />
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="product-info-panel">
+          <div class="badges-row">
+            <span class="badge badge--new">New</span>
+            <span class="badge badge--stock"> <mat-icon class="stock-icon">check_circle</mat-icon> In Stock </span>
+          </div>
+
+          <div class="brand-and-title">
+            <div class="product-brand">{{ productBrand() }}</div>
+            <h1 class="product-title">{{ product()!.name['en'] }}</h1>
+          </div>
+
+          <div class="product-price">
+            {{ currentPrice() | currency: 'USD' : 'symbol' : '1.2-2' }}
+          </div>
+
+          @if (product()!.description?.['en']) {
+            <p class="product-description-short">
+              {{ product()!.description?.['en'] }}
+            </p>
+          }
+
+          <hr class="divider" />
+
+          @if (availableColors().length > 0) {
+            <div class="variant-section">
+              <span class="variant-label"
+                >Color: <span class="variant-value">{{ selectedColor() }}</span></span
+              >
+              <div class="color-swatches">
+                @for (color of availableColors(); track color) {
+                  <button
+                    type="button"
+                    class="swatch"
+                    [class.swatch--active]="selectedColor() === color"
+                    [style.background-color]="
+                      color.includes('Gray') ||
+                      color.includes('Black') ||
+                      color.includes('Midnight') ||
+                      color.includes('Carbon') ||
+                      color.includes('Dark')
+                        ? '#374151'
+                        : color.includes('Silver') ||
+                            color.includes('Starlight') ||
+                            color.includes('White') ||
+                            color.includes('Polar') ||
+                            color.includes('Arctic')
+                          ? '#e2e8f0'
+                          : color
+                    "
+                    (click)="selectColor(color)"
+                    [attr.aria-label]="'Select ' + color + ' color option'"></button>
+                }
+              </div>
+            </div>
+          }
+
+          @if (availableStorages().length > 0) {
+            <div class="variant-section">
+              <span class="variant-label">{{ variantOptionLabel() }}</span>
+              <div class="storage-options">
+                @for (size of availableStorages(); track size) {
+                  <button
+                    type="button"
+                    class="storage-btn"
+                    [class.storage-btn--active]="selectedStorage() === size"
+                    (click)="selectStorage(size)">
+                    {{ size }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <div class="purchase-action-row">
+            <div class="quantity-selector">
+              <button
+                type="button"
+                class="qty-btn"
+                (click)="decrementQuantity()"
+                [disabled]="quantity() <= 1"
+                aria-label="Decrease quantity">
+                <mat-icon>remove</mat-icon>
+              </button>
+              <span class="qty-number">{{ quantity() }}</span>
+              <button type="button" class="qty-btn" (click)="incrementQuantity()" aria-label="Increase quantity">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <button type="button" class="add-to-cart-btn" (click)="addToCart()" aria-label="Add product to cart">
+              <mat-icon>shopping_cart</mat-icon>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+
+          <div class="shipping-info-row">
+            <div class="info-item">
+              <mat-icon>local_shipping</mat-icon>
+              <span>Free Shipping</span>
+            </div>
+            <div class="info-item">
+              <mat-icon>assignment_return</mat-icon>
+              <span>30-Day Returns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-tabs-section">
+        <ec-tabs [options]="tabOptions()" [activeTabId]="activeTabId()" (tabChange)="selectTab($event)" />
+
+        <div class="tab-content-panel">
+          @if (activeTabId() === ProductTab.Specs) {
+            <div class="specs-tab-view">
+              @if (isLaptop()) {
+                <div class="laptop-specs-grid">
+                  <div class="spec-card-custom spec-card-custom--process">
+                    <h3 class="card-title">Processor & Graphics</h3>
+                    <p class="card-desc">
+                      Equipped with the latest custom silicon architecture, delivering unprecedented performance per
+                      watt. Handle complex 3D rendering, machine learning models, and massive logical arrays with zero
+                      thermal throttling.
+                    </p>
+                    <div class="spec-table">
+                      <div class="spec-table-row">
+                        <span class="spec-table-label">CPU Cores</span>
+                        <span class="spec-table-val">{{ laptopSpecs().cpu || 'Not specified' }}</span>
+                      </div>
+                      <div class="spec-table-row">
+                        <span class="spec-table-label">Brand</span>
+                        <span class="spec-table-val">{{ laptopSpecs().brand || 'Not specified' }}</span>
+                      </div>
+                      <div class="spec-table-row">
+                        <span class="spec-table-label">Graphics (GPU)</span>
+                        <span class="spec-table-val">High-Performance integrated</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="spec-card-custom spec-card-custom--memory">
+                    <div class="chip-graphic">
+                      <mat-icon>memory</mat-icon>
+                    </div>
+                    <span class="card-subtitle">Unified Memory</span>
+                    <h3 class="memory-size-title">Up to {{ laptopSpecs().ram || 'Standard Config' }}</h3>
+                    <span class="bandwidth-label">400GB/s bandwidth</span>
+                  </div>
+
+                  <div class="spec-card-custom spec-card-custom--display">
+                    <h3 class="card-title">Display Technology</h3>
+                    <div class="display-specs-grid">
+                      <div class="display-metric">
+                        <span class="metric-label">Resolution</span>
+                        <span class="metric-val">{{ laptopSpecs().resolution || 'Not specified' }}</span>
+                      </div>
+                      <div class="display-metric">
+                        <span class="metric-label">Brightness</span>
+                        <span class="metric-val">{{ laptopSpecs().brightness || 'Not specified' }}</span>
+                      </div>
+                      <div class="display-metric">
+                        <span class="metric-label">Refresh Rate</span>
+                        <span class="metric-val">{{ laptopSpecs().refreshRate || 'Not specified' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <div class="generic-specs-wrapper">
+                  <ec-product-specifications [attributes]="product()!.masterVariant.attributes" />
+                </div>
+              }
+            </div>
+          }
+
+          @if (activeTabId() === ProductTab.Reviews) {
+            <div class="reviews-tab-view">
+              @if (loadingReviews()) {
+                <div class="reviews-loading-state">
+                  <mat-icon class="spinner-icon">sync</mat-icon>
+                  <span>Loading reviews from database...</span>
+                </div>
+              } @else {
+                <div class="reviews-dashboard">
+                  <div class="average-score-card">
+                    <span class="score-number">{{ averageRating() }}</span>
+                    <div class="stars-row">
+                      @for (star of [1, 2, 3, 4, 5]; track star) {
+                        <mat-icon class="star-icon" [class.star-icon--filled]="star <= averageRating()">star</mat-icon>
+                      }
+                    </div>
+                    <span class="reviews-count-label">Based on {{ reviews().length }} reviews</span>
+                  </div>
+
+                  <div class="rating-breakdown-panel">
+                    @for (score of [5, 4, 3, 2, 1]; track score) {
+                      <div class="breakdown-row">
+                        <span class="score-label">{{ score }} star</span>
+                        <div class="bar-container">
+                          <div
+                            class="bar-fill"
+                            [style.width.%]="
+                              reviews().length ? (starsCount()[score] / reviews().length) * 100 : 0
+                            "></div>
+                        </div>
+                        <span class="count-label">{{ starsCount()[score] }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+
+                <div class="reviews-list-section">
+                  <h3 class="section-heading">Recent Customer Reviews</h3>
+                  <div class="reviews-list">
+                    @for (rev of reviews(); track $index) {
+                      <div class="review-item-card">
+                        <div class="review-item-header">
+                          <div class="author-info">
+                            <span class="author-name">{{ rev.author }}</span>
+                            <span class="review-date">{{ rev.date }}</span>
+                          </div>
+                          <div class="review-rating-stars">
+                            @for (star of [1, 2, 3, 4, 5]; track star) {
+                              <mat-icon class="star-icon" [class.star-icon--filled]="star <= rev.rating">star</mat-icon>
+                            }
+                          </div>
+                        </div>
+                        <h4 class="review-item-title">{{ rev.title }}</h4>
+                        <p class="review-item-text">{{ rev.content }}</p>
+                      </div>
+                    } @empty {
+                      <p class="no-reviews-msg">No reviews yet for this product. Be the first to write one!</p>
+                    }
+                  </div>
+                </div>
+
+                <div class="write-review-section">
+                  <h3 class="section-heading">Write a Customer Review</h3>
+                  <form class="review-form" (ngSubmit)="onSubmitReview()">
+                    <div class="form-grid">
+                      <div class="form-group">
+                        <label for="author-input">Name</label>
+                        <input
+                          id="author-input"
+                          type="text"
+                          class="form-control"
+                          [(ngModel)]="newReviewAuthor"
+                          name="author"
+                          placeholder="Your name"
+                          required />
+                      </div>
+                      <div class="form-group">
+                        <label for="rating-select">Rating</label>
+                        <select id="rating-select" class="form-control" [(ngModel)]="newReviewRating" name="rating">
+                          <option [value]="5">5 Stars (Excellent)</option>
+                          <option [value]="4">4 Stars (Good)</option>
+                          <option [value]="3">3 Stars (Average)</option>
+                          <option [value]="2">2 Stars (Poor)</option>
+                          <option [value]="1">1 Star (Terrible)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="title-input">Review Title</label>
+                      <input
+                        id="title-input"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="newReviewTitle"
+                        name="title"
+                        placeholder="Summarize your experience"
+                        required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="content-input">Review Comments</label>
+                      <textarea
+                        id="content-input"
+                        class="form-control"
+                        rows="4"
+                        [(ngModel)]="newReviewContent"
+                        name="content"
+                        placeholder="What did you like or dislike about this product?"
+                        required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-review-btn">Submit Review</button>
+                  </form>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
     </div>
   }
 </div>
