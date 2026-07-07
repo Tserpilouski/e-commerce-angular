@@ -10,6 +10,8 @@ describe('ProductDetailsComponent', () => {
     selectedProduct: WritableSignal<unknown>;
     loading: WritableSignal<boolean>;
     error: WritableSignal<string | null>;
+    findVariant: ReturnType<typeof vi.fn>;
+    getAllVariants: ReturnType<typeof vi.fn>;
   };
   let component: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
@@ -30,6 +32,8 @@ describe('ProductDetailsComponent', () => {
       selectedProduct: signal(mockProd),
       loading: signal(false),
       error: signal(null),
+      findVariant: vi.fn().mockReturnValue(mockProd.masterVariant),
+      getAllVariants: vi.fn().mockReturnValue([mockProd.masterVariant]),
     };
 
     await TestBed.configureTestingModule({

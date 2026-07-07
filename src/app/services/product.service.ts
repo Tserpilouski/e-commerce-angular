@@ -3,6 +3,7 @@ import { ProductPagedQueryResponse } from '@models/products/product-paged-query-
 import { Product } from '@models/products/product.model';
 import { ProductFilters } from '@models/products/product-filters.model';
 import { Category } from '@models/products/category.model';
+import { ProductVariant } from '@models/products/product-variant.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({
@@ -168,6 +169,18 @@ export class ProductService {
         a.label = labels.get(a.name) ?? a.name;
       });
     }
+  }
+
+  findVariant(product: Product, predicate: (variant: ProductVariant) => boolean): ProductVariant | null {
+    if (product.masterVariant && predicate(product.masterVariant)) {
+      return product.masterVariant;
+    }
+    return product.variants?.find(predicate) || null;
+  }
+
+  getAllVariants(product: Product): ProductVariant[] {
+    if (!product) return [];
+    return [product.masterVariant, ...(product.variants || [])].filter(Boolean) as ProductVariant[];
   }
 
   async searchProducts(
