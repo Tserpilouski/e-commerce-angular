@@ -1,0 +1,47 @@
+<header class="dashboard__intro">
+  <h2 class="dashboard__title">Welcome back, {{ userName }}</h2>
+  <p class="dashboard__subtitle">Manage your account, track orders, and update your preferences here.</p>
+</header>
+
+<div class="dashboard__grid">
+  <section class="panel">
+    <div class="panel__header">
+      <h3 class="panel__title">
+        <mat-icon>receipt_long</mat-icon>
+        Recent Orders
+      </h3>
+      <a class="panel__action" href="#">View all</a>
+    </div>
+
+    <ul class="panel__list">
+      @for (order of recentOrders; track order.orderNumber) {
+        <li class="panel__list-item">
+          <ec-recent-orders-card
+            [orderNumber]="order.orderNumber"
+            [total]="order.total"
+            [placedOn]="order.placedOn"
+            [status]="order.status" />
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="panel">
+    <div class="panel__header">
+      <h3 class="panel__title">
+        <mat-icon>location_on</mat-icon>
+        Saved Addresses
+      </h3>
+      <button class="panel__action" type="button" (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+        Add new
+      </button>
+    </div>
+
+    <div class="panel__addresses">
+      @for (address of addresses(); track address.id) {
+        <ec-address-card [delivery]="address" (edit)="onEdit($event)" />
+      }
+    </div>
+  </section>
+</div>

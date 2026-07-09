@@ -43,6 +43,10 @@ export const routes: Routes = [
       import('./pages/order-confirmation/order-confirmation').then((m) => m.OrderConfirmationComponent),
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./pages/profile/profile.routes').then((m) => m.profileRoutes),
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found.component').then((m) => m.NotFound),
   },
