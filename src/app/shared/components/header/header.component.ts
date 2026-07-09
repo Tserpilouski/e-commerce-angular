@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { LogoComponent } from '@shared/components/logo/logo.component';
 import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
 import { CartService } from '@services/cart';
-import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
 import { AuthService } from '@app/services/auth.service';
 
 @Component({
