@@ -1,7 +1,4 @@
-import { Component, signal, inject, OnInit, DestroyRef, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { ProductService } from '@services/product.service';
 import { CartService } from '@services/cart';
 import { Product } from '@models/products/product.model';
