@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DeliveryInfo } from '@pages/profile/dashboard/components/address-card/address-card';
+import { DeliveryInfo } from '@pages/profile/dashboard/models/delivery-info.model';
 
 const BLANK_DELIVERY: DeliveryInfo = {
   id: 0,
