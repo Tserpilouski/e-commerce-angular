@@ -1,0 +1,9 @@
+<div class="order__top">
+  <span class="order__number">Order #{{ orderNumber() }}</span>
+  <span class="order__total">{{ total() | currency }}</span>
+</div>
+<p class="order__date">Placed on {{ placedOn() }}</p>
+<span class="order__status" [class]="statusClass()">
+  <span class="order__status-dot"></span>
+  {{ status() }}
+</span>
