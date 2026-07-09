@@ -1,10 +1,14 @@
 <div class="header">
-  <span class="header__title">Home</span>
-  <span class="header__default">Default</span>
-  <mat-icon class="header__edit">edit</mat-icon>
+  <span class="header__title">{{ delivery().label }}</span>
+  @if (delivery().isDefault) {
+    <span class="header__default">Default</span>
+  }
+  <button class="header__action" type="button" aria-label="Edit address" (click)="onEdit()">
+    <mat-icon>edit</mat-icon>
+  </button>
 </div>
 <div class="content">
-  <span class="content__item">123 Main St</span>
-  <span class="content__item">City, State, ZIP</span>
-  <span class="content__item">Country</span>
+  <span class="content__item">{{ recipientName() }}</span>
+  <span class="content__item">{{ streetLine() }}</span>
+  <span class="content__item">{{ cityLine() }}</span>
 </div>
