@@ -1,0 +1,67 @@
+:host {
+  display: block;
+}
+
+.order {
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  &__total {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+  }
+
+  &__date {
+    margin: 0.3rem 0 0;
+    font-size: 1rem;
+    color: #64748b;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: #f1f5f9;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #334155;
+  }
+
+  &__status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4f46e5;
+  }
+}
+
+.status--processing .order__status-dot {
+  background: #4f46e5;
+}
+
+.status--shipped .order__status-dot {
+  background: #0ea5e9;
+}
+
+.status--delivered .order__status-dot {
+  background: #22c55e;
+}
+
+.status--cancelled .order__status-dot {
+  background: #ef4444;
+}
