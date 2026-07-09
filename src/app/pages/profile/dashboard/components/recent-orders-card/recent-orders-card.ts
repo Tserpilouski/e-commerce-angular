@@ -1,7 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-
-export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+import { OrderStatus } from '@pages/profile/dashboard/models/order-status.model';
 
 @Component({
   selector: 'ec-recent-orders-card',
