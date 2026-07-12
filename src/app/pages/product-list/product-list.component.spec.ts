@@ -94,4 +94,25 @@ describe('ProductListComponent', () => {
       queryParamsHandling: 'merge',
     });
   });
+
+  it('should expose the productService error signal', () => {
+    productServiceMock.error.set('Something went wrong');
+    expect(component.error()).toBe('Something went wrong');
+  });
+
+  it('should show the loading spinner when numericLoading is true', async () => {
+    component.numericLoading.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.querySelector('ec-loading-spinner')).toBeTruthy();
+  });
+
+  it('should hide the loading spinner when numericLoading is false', async () => {
+    component.numericLoading.set(false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.querySelector('ec-loading-spinner')).toBeNull();
+  });
 });

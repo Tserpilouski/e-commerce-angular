@@ -39,3 +39,13 @@ Please refer to the [Contribution Guide](CONTRIBUTING.md) before making any code
 | `ng generate interface <name>`   | TypeScript interface                            |
 | `ng generate enum <name>`        | TypeScript enum                                 |
 | `ng generate class <name>`       | Plain TypeScript class                          |
+
+---
+
+## Demo Video
+
+A ~1-minute screen recording demonstrating the 404 page.
+
+📹 **[Watch the demo video](public/demo-video.mp4)**
+
+![Sprint 4 demo — 404](public/demo-video.mp4)

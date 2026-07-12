@@ -3,5 +3,8 @@
   <h1>404</h1>
   <h2>Page Not Found</h2>
   <p>The tech you are looking for has been moved or doesn't exist.</p>
-  <ec-button label="Go Back" variant="primary" [routerLink]="['/']"></ec-button>
+  <div class="not-found-actions">
+    <ec-button label="Go Back" variant="outline" (click)="goBack()"></ec-button>
+    <ec-button label="Go Home" variant="primary" [routerLink]="['/']"></ec-button>
+  </div>
 </div>
