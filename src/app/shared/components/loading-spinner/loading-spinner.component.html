@@ -1,0 +1,6 @@
+<div class="loading-spinner" [attr.aria-label]="label() || 'Loading…'" role="status">
+  <div class="loading-spinner__icon"></div>
+  @if (label()) {
+    <span class="loading-spinner__label">{{ label() }}</span>
+  }
+</div>
