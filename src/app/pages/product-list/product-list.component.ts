@@ -11,10 +11,17 @@ import { ProductFilters } from '@models/products/product-filters.model';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LoadingSpinnerComponent } from '@shared/components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'ec-product-list',
-  imports: [PaginationWrapperComponent, ProductGaleriaComponent, ProductFiltersComponent, MatIconModule],
+  imports: [
+    PaginationWrapperComponent,
+    ProductGaleriaComponent,
+    ProductFiltersComponent,
+    MatIconModule,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -25,6 +32,8 @@ export class ProductListComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+
+  readonly error = this.productService.error;
 
   searchQuery = signal<string>('');
   filters = signal<ProductFilters | undefined>(undefined);

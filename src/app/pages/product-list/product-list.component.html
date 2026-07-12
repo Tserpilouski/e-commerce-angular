@@ -7,13 +7,17 @@
     <div class="product-list__main-content">
       <section class="product-list__section">
         <h2>Numeric Pagination</h2>
-        <ec-pagination-wrapper
-          [mode]="PaginationMode.Numeric"
-          [response]="numericResponse()"
-          [loading]="numericLoading()"
-          (pageChange)="onNumericPageChange($event)">
-          <ec-product-galeria [products]="paginatedProducts()" (addToCart)="onAddToCart($event)" />
-        </ec-pagination-wrapper>
+        @if (numericLoading()) {
+          <ec-loading-spinner label="Loading products…" />
+        } @else {
+          <ec-pagination-wrapper
+            [mode]="PaginationMode.Numeric"
+            [response]="numericResponse()"
+            [loading]="numericLoading()"
+            (pageChange)="onNumericPageChange($event)">
+            <ec-product-galeria [products]="paginatedProducts()" (addToCart)="onAddToCart($event)" />
+          </ec-pagination-wrapper>
+        }
       </section>
     </div>
   </div>
