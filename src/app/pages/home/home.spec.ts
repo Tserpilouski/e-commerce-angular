@@ -10,11 +10,15 @@ describe('Home', () => {
 
   const productServiceMock: {
     fetchPagedProducts: ReturnType<typeof vi.fn>;
+    fetchCategories: ReturnType<typeof vi.fn>;
     products: WritableSignal<unknown[]>;
+    categories: WritableSignal<unknown[]>;
     loading: WritableSignal<boolean>;
   } = {
     fetchPagedProducts: vi.fn(),
+    fetchCategories: vi.fn(),
     products: signal([]),
+    categories: signal([]),
     loading: signal(false),
   };
 

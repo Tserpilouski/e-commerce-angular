@@ -15,9 +15,9 @@
   <section class="categories">
     <h2 class="categories__title">Shop by Category</h2>
     <div class="categories__grid">
-      @for (category of categories(); track category.name) {
+      @for (category of categories(); track category.id || category.name) {
         <div class="category-card">
-          <span class="category-card__name">{{ category.name }}</span>
+          <span class="category-card__name">{{ category.name | localize: 'Unnamed Category' }}</span>
         </div>
       }
     </div>

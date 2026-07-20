@@ -5,6 +5,12 @@ import { ProductFilters } from '@models/products/product-filters.model';
 import { Category } from '@models/products/category.model';
 import { ProductVariant } from '@models/products/product-variant.model';
 import { ApiClientService } from './api-client.service';
+import { localize, extractAttributeLabel } from '@shared/pipes/localize.pipe';
+
+export interface FilterOption {
+  key: string;
+  label: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +24,10 @@ export class ProductService {
   readonly error = signal<string | null>(null);
 
   // Dynamic filter options based on fetched items
-  readonly availableBrands = signal<string[]>([]);
-  readonly availableAttributes = signal<Map<string, unknown[]>>(new Map());
+  readonly availableBrands = signal<FilterOption[]>([]);
+  readonly availableAttributes = signal<Map<string, FilterOption[]>>(new Map());
   readonly categories = signal<Category[]>([]);
+  readonly localizedAttributes = new Set<string>();
 
   async fetchCategories() {
     try {
@@ -56,30 +63,50 @@ export class ProductService {
       const allProducts = response.results ?? [];
       allProducts.forEach((p) => this.expandProductAttributes(p));
 
-      const attributesMap = new Map<string, Set<unknown>>();
+      const attributesMap = new Map<string, Map<string, string>>();
 
-      for (const p of allProducts) {
-        for (const { name, value } of p.masterVariant?.attributes ?? []) {
-          const valuesSet = attributesMap.get(name) ?? new Set<unknown>();
-          valuesSet.add(value);
-          attributesMap.set(name, valuesSet);
-        }
-      }
+      allProducts
+        .flatMap((p) => [p.masterVariant, ...(p.variants || [])].filter(Boolean) as ProductVariant[])
+        .flatMap((v) => v.attributes ?? [])
+        .forEach(({ name, value }) => {
+          const optionsMap = attributesMap.get(name) ?? new Map<string, string>();
 
-      const brandSet = attributesMap.get('brand') ?? new Set<unknown>();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (Array.isArray(value) ? value : [value]).forEach((val: any) => {
+            if (val == null) return;
+
+            let key = String(val);
+            let label = String(val);
+
+            if (typeof val === 'object' && 'key' in val) {
+              key = String(val.key);
+              label = extractAttributeLabel(val);
+            } else if (typeof val === 'object' && Object.values(val).some((v) => typeof v === 'string')) {
+              key = label = localize(val);
+              this.localizedAttributes.add(name);
+            }
+
+            optionsMap.set(key, label);
+          });
+
+          attributesMap.set(name, optionsMap);
+        });
+
+      const brandMap = attributesMap.get('brand') ?? new Map<string, string>();
       attributesMap.delete('brand');
 
-      const attributesArrayMap = new Map<string, unknown[]>();
-      for (const [name, set] of attributesMap) {
-        attributesArrayMap.set(
-          name,
-          Array.from(set).sort((a, b) =>
-            typeof a === 'number' && typeof b === 'number' ? a - b : String(a).localeCompare(String(b)),
-          ),
-        );
+      const attributesArrayMap = new Map<string, FilterOption[]>();
+      for (const [name, optionsMap] of attributesMap) {
+        const optionsArray = Array.from(optionsMap.entries()).map(([k, l]) => ({ key: k, label: l }));
+        optionsArray.sort((a, b) => a.label.localeCompare(b.label));
+        attributesArrayMap.set(name, optionsArray);
       }
 
-      this.availableBrands.set(Array.from(brandSet).map(String).sort());
+      this.availableBrands.set(
+        Array.from(brandMap.entries())
+          .map(([k, l]) => ({ key: k, label: l }))
+          .sort((a, b) => a.label.localeCompare(b.label)),
+      );
       this.availableAttributes.set(attributesArrayMap);
     } catch (e) {
       console.error('Failed to load filter options', e);
@@ -124,7 +151,8 @@ export class ProductService {
     for (const [name, values] of Object.entries(attributeFilters)) {
       if (values?.length) {
         const valString = values.map((v) => `"${v}"`).join(',');
-        filterQueries.push(`variants.attributes.${name}:${valString}`);
+        const queryName = this.localizedAttributes.has(name) ? `${name}.en` : name;
+        filterQueries.push(`variants.attributes.${queryName}:${valString}`);
       }
     }
 
@@ -162,9 +190,10 @@ export class ProductService {
     const attributes = product?.productType?.obj?.attributes;
     if (!attributes) return;
 
-    const labels = new Map(attributes.map((d) => [d.name, d.label['en'] || d.name]));
+    const labels = new Map(attributes.map((d) => [d.name, localize(d.label, d.name)]));
 
-    for (const v of [product.masterVariant]) {
+    const allVariants = [product.masterVariant, ...(product.variants || [])].filter(Boolean) as ProductVariant[];
+    for (const v of allVariants) {
       v?.attributes?.forEach((a) => {
         a.label = labels.get(a.name) ?? a.name;
       });

@@ -4,15 +4,15 @@
   }
   <div class="card__image-wrapper">
     <a [routerLink]="['/product', product().key]">
-      <img class="card__image" [src]="product() | productImage" [alt]="product().name['en'] || 'Product Image'" />
+      <img class="card__image" [src]="product() | productImage" [alt]="product().name | localize: 'Product Image'" />
     </a>
   </div>
   <div class="card__body">
     <a [routerLink]="['/product', product().key]">
-      <h3 class="card__name">{{ product().name['en'] || product().name['ru'] || 'Unnamed Product' }}</h3>
+      <h3 class="card__name">{{ product().name | localize: 'Unnamed Product' }}</h3>
     </a>
-    @if (product().description?.['en'] || product().description?.['ru']) {
-      <p class="card__description">{{ product().description?.['en'] || product().description?.['ru'] }}</p>
+    @if (product().description | localize: '') {
+      <p class="card__description">{{ product().description | localize: '' }}</p>
     }
     <div class="card__footer">
       <span class="card__price">${{ (product().masterVariant.prices?.[0]?.value?.centAmount || 0) / 100 }}</span>
