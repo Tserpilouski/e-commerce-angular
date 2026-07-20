@@ -1,11 +1,26 @@
-<div class="toast-container">
+<div class="toast-container" aria-live="polite" aria-atomic="false">
   @for (toast of toastService.toasts(); track toast.id) {
-    <div class="toast toast--{{ toast.type }}">
-      <div class="toast__header">
-        <span class="toast__title">{{ toast.type }}</span>
-        <button class="toast__close" (click)="toastService.remove(toast.id)">×</button>
+    <div class="toast toast--{{ toast.type }}" role="alert">
+      <span class="toast__icon" aria-hidden="true">
+        <mat-icon>{{ toastIcons[toast.type] }}</mat-icon>
+      </span>
+
+      <div class="toast__body">
+        <span class="toast__title">{{ toastLabels[toast.type] }}</span>
+        <p class="toast__message">{{ toast.message }}</p>
       </div>
-      <p class="toast__message">{{ toast.message }}</p>
+
+      <button
+        class="toast__close"
+        type="button"
+        aria-label="Dismiss notification"
+        (click)="toastService.remove(toast.id)">
+        <mat-icon>close</mat-icon>
+      </button>
+
+      @if (toast.duration) {
+        <span class="toast__progress" [style.animation-duration.ms]="toast.duration"></span>
+      }
     </div>
   }
 </div>

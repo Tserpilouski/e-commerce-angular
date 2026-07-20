@@ -5,64 +5,163 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  width: min(24rem, calc(100vw - 2rem));
+  pointer-events: none;
+
+  @media (max-width: 480px) {
+    top: auto;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
 }
 
 .toast {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: fit-content;
-  width: 300px;
-  padding: 1rem;
-  border-radius: 0.8rem;
-  color: var(--color-black);
+  --toast-accent: var(--color-info);
+  --toast-tint: var(--color-info-bg);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--toast-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--toast-tint) 30%, var(--color-white));
+  box-shadow:
+    0 10px 15px -3px rgba(15, 23, 42, 0.1),
+    0 4px 6px -4px rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+  pointer-events: auto;
+  animation: toast-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
 
   &--success {
-    border-color: var(--color-success);
-    background-color: var(--color-success-bg);
+    --toast-accent: var(--color-success);
+    --toast-tint: var(--color-success-bg);
   }
 
   &--error {
-    border-color: var(--color-error);
-    background-color: var(--color-error-bg);
+    --toast-accent: var(--color-error);
+    --toast-tint: var(--color-error-bg);
   }
 
   &--warning {
-    border-color: var(--color-warning);
-    background-color: var(--color-warning-bg);
+    --toast-accent: var(--color-warning);
+    --toast-tint: var(--color-warning-bg);
   }
 
   &--info {
-    border-color: var(--color-info);
-    background-color: var(--color-info-bg);
+    --toast-accent: var(--color-info);
+    --toast-tint: var(--color-info-bg);
   }
 
-  &__header {
+  &__icon {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    color: color-mix(in srgb, var(--toast-accent) 75%, #0f172a);
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
   }
 
   &__title {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.3;
   }
 
   &__message {
-    font-size: 1rem;
-    font-weight: normal;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: #334155;
+    overflow-wrap: anywhere;
   }
 
   &__close {
-    align-self: flex-end;
-    background: none;
+    display: flex;
+    padding: 0;
     border: none;
-    font-size: 1.5rem;
+    border-radius: 6px;
+    background: none;
+    color: #64748b;
     cursor: pointer;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
     }
+
+    &:hover {
+      color: #0f172a;
+      background: rgba(15, 23, 42, 0.06);
+    }
+  }
+
+  &__progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--toast-accent);
+    transform-origin: left;
+    animation-name: toast-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+
+  .toast__progress {
+    animation: none;
+    opacity: 0.5;
   }
 }

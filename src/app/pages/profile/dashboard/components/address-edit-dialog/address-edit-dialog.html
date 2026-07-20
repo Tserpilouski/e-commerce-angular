@@ -2,63 +2,64 @@
 
 <form class="form" [formGroup]="form" (ngSubmit)="save()">
   <mat-dialog-content class="form__content">
-    <mat-form-field class="form__field form__field--full">
-      <mat-label>Label</mat-label>
-      <input matInput formControlName="label" />
-    </mat-form-field>
-
-    <fieldset class="form__section" formGroupName="recipient">
+    <fieldset class="form__section">
       <legend class="form__legend">Recipient</legend>
 
       <mat-form-field class="form__field">
         <mat-label>First name</mat-label>
-        <input matInput formControlName="firstName" />
+        <input matInput formControlName="firstName" autocomplete="given-name" />
       </mat-form-field>
 
       <mat-form-field class="form__field">
         <mat-label>Last name</mat-label>
-        <input matInput formControlName="lastName" />
+        <input matInput formControlName="lastName" autocomplete="family-name" />
       </mat-form-field>
 
       <mat-form-field class="form__field form__field--full">
         <mat-label>Phone</mat-label>
-        <input matInput formControlName="phone" />
+        <input matInput formControlName="phone" autocomplete="tel" />
       </mat-form-field>
     </fieldset>
 
-    <fieldset class="form__section" formGroupName="address">
+    <fieldset class="form__section">
       <legend class="form__legend">Address</legend>
 
       <mat-form-field class="form__field">
-        <mat-label>Country</mat-label>
-        <input matInput formControlName="country" />
+        <mat-label>Country code</mat-label>
+        <input matInput formControlName="country" maxlength="2" placeholder="US" autocomplete="country" />
+        <mat-hint>Two-letter ISO code</mat-hint>
+        @if (form.controls.country.hasError('pattern')) {
+          <mat-error>Use a two-letter code, e.g. US</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field class="form__field">
         <mat-label>City</mat-label>
-        <input matInput formControlName="city" />
+        <input matInput formControlName="city" autocomplete="address-level2" />
       </mat-form-field>
 
       <mat-form-field class="form__field">
         <mat-label>Postal code</mat-label>
-        <input matInput formControlName="postalCode" />
+        <input matInput formControlName="postalCode" autocomplete="postal-code" />
       </mat-form-field>
 
       <mat-form-field class="form__field">
         <mat-label>Street</mat-label>
-        <input matInput formControlName="street" />
+        <input matInput formControlName="streetName" autocomplete="address-line1" />
       </mat-form-field>
 
       <mat-form-field class="form__field">
         <mat-label>House number</mat-label>
-        <input matInput formControlName="houseNumber" />
+        <input matInput formControlName="streetNumber" />
       </mat-form-field>
 
       <mat-form-field class="form__field">
-        <mat-label>Apartment number</mat-label>
-        <input matInput formControlName="apartmentNumber" />
+        <mat-label>Apartment, floor</mat-label>
+        <input matInput formControlName="additionalStreetInfo" autocomplete="address-line2" />
       </mat-form-field>
     </fieldset>
+
+    <mat-checkbox formControlName="defaultShipping">Use as default shipping address</mat-checkbox>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
