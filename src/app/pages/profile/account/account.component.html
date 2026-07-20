@@ -1,1 +1,53 @@
-<p>account works!</p>
+<header class="account__intro">
+  <h2 class="account__title">Personal details</h2>
+  <p class="account__subtitle">Update the name and contact details we use for your orders.</p>
+</header>
+
+@if (!isAuthenticated()) {
+  <p class="account__message">Sign in to view and edit your details.</p>
+} @else {
+  <form class="account__form" [formGroup]="form" (ngSubmit)="save()">
+    <fieldset class="account__section">
+      <legend class="account__legend">Name</legend>
+
+      <div class="account__field">
+        <ec-input formControlName="salutation" label="Salutation" placeholder="Mr." />
+      </div>
+
+      <div class="account__field">
+        <ec-input formControlName="title" label="Title" placeholder="Dr." />
+      </div>
+
+      <div class="account__field">
+        <ec-input formControlName="firstName" label="First name" [status]="statusOf(form.controls.firstName)" />
+        @if (form.controls.firstName.invalid && form.controls.firstName.touched) {
+          <span class="account__error">First name is required.</span>
+        }
+      </div>
+
+      <div class="account__field">
+        <ec-input formControlName="middleName" label="Middle name" />
+      </div>
+
+      <div class="account__field">
+        <ec-input formControlName="lastName" label="Last name" [status]="statusOf(form.controls.lastName)" />
+        @if (form.controls.lastName.invalid && form.controls.lastName.touched) {
+          <span class="account__error">Last name is required.</span>
+        }
+      </div>
+
+      <div class="account__field">
+        <ec-input formControlName="dateOfBirth" type="date" label="Date of birth" />
+      </div>
+    </fieldset>
+
+    <div class="account__actions">
+      <button matButton type="button" [disabled]="!form.dirty || loading()" (click)="resetFromCustomer()">
+        Discard
+      </button>
+      <button matButton="filled" type="submit" [disabled]="!form.dirty || loading()">
+        {{ loading() ? 'Saving…' : 'Save changes' }}
+      </button>
+    </div>
+  </form>
+}

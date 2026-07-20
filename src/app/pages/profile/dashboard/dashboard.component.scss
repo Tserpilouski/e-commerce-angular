@@ -65,6 +65,22 @@
     }
   }
 
+  &__message {
+    margin: 0;
+    padding: 1rem 0;
+    font-size: 0.9375rem;
+    color: #64748b;
+
+    &--error {
+      color: #b91c1c;
+    }
+  }
+
+  &__addresses--busy {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   &__action {
     display: inline-flex;
     align-items: center;
