@@ -3,6 +3,7 @@ import { Cart } from '@models/cart/cart.model';
 import { CartItem } from '@models/cart/cart-item.model';
 import { Money } from '@models/common/money.model';
 import { Product } from '@models/products/product.model';
+import { localize } from '@shared/pipes/localize.pipe';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -18,7 +19,7 @@ export class CartService {
     this.addItem({
       productId: product.id,
       productKey: product.key ?? product.id,
-      name: product.name['en'] || product.name['ru'] || 'Unnamed Product',
+      name: localize(product.name, 'Unnamed Product'),
       variant: variant.key ?? variant.sku ?? '',
       quantity,
       price: variant.prices?.[0]?.value ?? { centAmount: 0, currencyCode: 'USD', fractionDigits: 2 },

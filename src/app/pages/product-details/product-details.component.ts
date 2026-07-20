@@ -7,14 +7,14 @@ import { ApiClientService } from '@services/api-client.service';
 import { ProductSpecificationsComponent } from './components/product-specifications/product-specifications.component';
 import { Tabs } from '@shared/components/tabs/tabs';
 import { TabOption } from '@shared/components/tabs/models/tabOption.model';
+import { Title } from '@angular/platform-browser';
 import { ToastService } from '@services/toast/toast.service';
 import { ToastType } from '@shared/components/toast/models/toast.model';
+import { LocalizePipe, localize, extractAttributeLabel } from '@shared/pipes/localize.pipe';
 import { ProductTab } from './models/product-tab.enum';
 import { ProductAttribute } from './models/product-attribute.enum';
-import { ProductType } from '@models/products/product-type.enum';
 import { CustomObjectContainer } from '@models/common/custom-object-container.enum';
 import { ProductVariant } from '@models/products/product-variant.model';
-import { Attribute } from '@models/attributes/attribute.model';
 
 const DEFAULT_BRAND = 'PREMIUM TECH';
 
@@ -28,12 +28,13 @@ interface Review {
 
 @Component({
   selector: 'ec-product-details',
-  imports: [CommonModule, FormsModule, MatIconModule, ProductSpecificationsComponent, Tabs],
+  imports: [CommonModule, FormsModule, MatIconModule, ProductSpecificationsComponent, Tabs, LocalizePipe],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent {
   readonly ProductTab = ProductTab;
+  private readonly titleService = inject(Title);
 
   readonly key = input<string>();
   private readonly productService = inject(ProductService);
@@ -45,8 +46,7 @@ export class ProductDetailsComponent {
   readonly error = this.productService.error;
   readonly loadingReviews = signal<boolean>(false);
 
-  readonly selectedColor = signal<string>('');
-  readonly selectedStorage = signal<string>('');
+  readonly selectedOptions = signal<Record<string, string>>({});
   readonly quantity = signal<number>(1);
   readonly selectedImageIndex = signal<number>(0);
   readonly activeTabId = signal<ProductTab>(ProductTab.Specs);
@@ -63,72 +63,60 @@ export class ProductDetailsComponent {
     { id: ProductTab.Reviews, label: `Customer Reviews (${this.reviews().length})` },
   ]);
 
-  readonly variantOptionLabel = computed<string>(() => {
+  readonly colorCodeMap = computed<Record<string, string>>(() => {
     const prod = this.product();
-    if (!prod) return 'Options';
-
-    const storageAttr = prod.masterVariant.attributes?.find(
-      (a) =>
-        a.name === ProductAttribute.StorageGb ||
-        a.name === ProductAttribute.Storage ||
-        a.name === ProductAttribute.Size,
-    );
-    return storageAttr?.label ?? storageAttr?.name ?? 'Options';
+    if (!prod) return {};
+    const map: Record<string, string> = {};
+    for (const v of this.productService.getAllVariants(prod)) {
+      const attrs = v.attributes || [];
+      const extractPair = (labelName: string, codeName: string) => {
+        const lbl = attrs.find((a) => a.name === labelName || a.name === labelName.replace('-label', ''));
+        const code = attrs.find((a) => a.name === codeName);
+        if (lbl && code) {
+          const lStr = extractAttributeLabel(lbl.value);
+          const cStr = extractAttributeLabel(code.value);
+          if (lStr && cStr) map[lStr] = cStr;
+        }
+      };
+      extractPair('color-label', 'color-code');
+      extractPair('finish-label', 'finish-code');
+    }
+    return map;
   });
 
-  readonly availableColors = computed<string[]>(() => {
+  readonly configurableOptions = computed<{ name: string; label: string; values: string[] }[]>(() => {
     const prod = this.product();
     if (!prod) return [];
+    const variants = this.productService.getAllVariants(prod);
+    const grouped = variants
+      .flatMap((v) => v.attributes || [])
+      .filter((a) => typeof a.value !== 'object' || Array.isArray(a.value))
+      .filter((a) => !a.name.endsWith('-code') && !a.name.startsWith('search-'))
+      .reduce((map, a) => {
+        const entry = map.get(a.name) ?? { label: a.label || a.name, values: new Set<string>() };
+        entry.values.add(extractAttributeLabel(a.value));
+        return map.set(a.name, entry);
+      }, new Map<string, { label: string; values: Set<string> }>());
 
-    const colors = new Set<string>();
-    this.productService.getAllVariants(prod).forEach((v) => {
-      const vc = v.attributes?.find((a: Attribute) => a.name === ProductAttribute.Color)?.value;
-      if (vc) colors.add(String(vc));
-    });
-
-    return Array.from(colors);
-  });
-
-  readonly availableStorages = computed<string[]>(() => {
-    const prod = this.product();
-    if (!prod) return [];
-
-    const storages = new Set<string>();
-    this.productService.getAllVariants(prod).forEach((v) => {
-      const vs = v.attributes?.find(
-        (a: Attribute) => a.name === ProductAttribute.StorageGb || a.name === ProductAttribute.Storage,
-      )?.value;
-      if (vs !== undefined && vs !== null) {
-        storages.add(String(vs));
-      }
-    });
-
-    return Array.from(storages);
+    return Array.from(grouped.entries())
+      .filter(([, data]) => data.values.size > 1)
+      .map(([name, data]) => ({ name, label: data.label, values: Array.from(data.values) }));
   });
 
   readonly selectedVariant = computed(() => {
     const prod = this.product();
     if (!prod) return null;
 
-    const color = this.selectedColor();
-    const storage = this.selectedStorage();
-
-    return this.productService.findVariant(prod, (v: ProductVariant) => this.variantMatches(v, color, storage));
+    const options = this.selectedOptions();
+    return this.productService.findVariant(prod, (v: ProductVariant) => {
+      for (const [name, selectedValue] of Object.entries(options)) {
+        const attr = v.attributes?.find((a) => a.name === name);
+        const attrValueStr = attr ? extractAttributeLabel(attr.value) : undefined;
+        if (attrValueStr !== selectedValue) return false;
+      }
+      return true;
+    });
   });
-
-  private variantMatches(variant: ProductVariant, color: string, storage: string): boolean {
-    const vc = variant.attributes?.find((a: Attribute) => a.name === ProductAttribute.Color)?.value;
-    const vs = variant.attributes?.find(
-      (a: Attribute) => a.name === ProductAttribute.StorageGb || a.name === ProductAttribute.Storage,
-    )?.value;
-
-    const storageStr = typeof vs === 'number' ? `${vs}GB` : String(vs || '');
-
-    const colorMatches = vc ? vc === color : true;
-    const storageMatches = vs ? storageStr === storage : true;
-
-    return colorMatches && storageMatches;
-  }
 
   readonly productRealImage = computed<string>(() => {
     const prod = this.product();
@@ -168,45 +156,22 @@ export class ProductDetailsComponent {
     const prod = this.product();
     if (!prod) return 0;
 
-    // TODO: Fetch variant prices directly from Commercetools to avoid hardcoded surcharges
-    const baseCentAmount = prod.masterVariant?.prices?.[0]?.value?.centAmount ?? 249900;
-    const basePrice = baseCentAmount / 100;
-
-    let surcharge = 0;
-    const storage = this.selectedStorage();
-    const list = this.availableStorages();
-    const idx = list.indexOf(storage);
-
-    if (idx === 1) surcharge = 200;
-    else if (idx === 2) surcharge = 600;
-    else if (idx >= 3) surcharge = 1200;
-
-    return basePrice + surcharge;
+    const baseCentAmount = prod.masterVariant?.prices?.[0]?.value?.centAmount ?? 0;
+    return baseCentAmount / 100;
   });
 
-  readonly isLaptop = computed<boolean>(() => {
-    const prod = this.product();
-    if (!prod) return false;
-    return prod.productType?.obj?.name === ProductType.Laptops;
-  });
+  readonly productSpecs = computed<{ name: string; label: string; value: string }[]>(() => {
+    const variant = this.selectedVariant() || this.product()?.masterVariant;
+    if (!variant) return [];
 
-  readonly laptopSpecs = computed(() => {
-    const prod = this.product();
-    const attrs = prod?.masterVariant?.attributes || [];
-    const brand = attrs.find((a) => a.name === ProductAttribute.Brand)?.value;
-    const cpu = attrs.find((a) => a.name === ProductAttribute.Cpu)?.value;
-    const ram = attrs.find((a) => a.name === ProductAttribute.RamGb)?.value;
-    const storage = attrs.find((a) => a.name === ProductAttribute.StorageGb)?.value;
-
-    return {
-      brand: brand || '',
-      cpu: cpu || '',
-      ram: ram ? `${ram}GB` : '',
-      storage: storage ? `${storage}GB SSD` : '',
-      resolution: '',
-      brightness: '',
-      refreshRate: '',
-    };
+    const specs: { name: string; label: string; value: string }[] = [];
+    for (const a of variant.attributes || []) {
+      const valStr = extractAttributeLabel(a.value);
+      if (valStr !== 'undefined' && valStr !== '') {
+        specs.push({ name: a.name, label: a.label || a.name, value: valStr });
+      }
+    }
+    return specs;
   });
 
   readonly productBrand = computed<string>(() => {
@@ -217,8 +182,11 @@ export class ProductDetailsComponent {
     )?.value;
     if (brandAttr) return String(brandAttr).toUpperCase();
 
-    const title = prod.name['en'] || '';
-    const words = title.split(' ');
+    const title = localize(prod.name);
+    if (title) {
+      this.titleService.setTitle(`${title} | Quantum E-Commerce`);
+    }
+    const words = title ? title.split(' ') : [];
     return words[0] ? words[0].toUpperCase() : DEFAULT_BRAND;
   });
 
@@ -245,11 +213,12 @@ export class ProductDetailsComponent {
       if (productKey) {
         await this.productService.fetchProductByKey(productKey);
 
-        const colors = this.availableColors();
-        this.selectedColor.set(colors[0] ?? '');
-
-        const storages = this.availableStorages();
-        this.selectedStorage.set(storages[0] ?? '');
+        const configOpts = this.configurableOptions();
+        const initialOptions: Record<string, string> = {};
+        for (const opt of configOpts) {
+          initialOptions[opt.name] = opt.values[0];
+        }
+        this.selectedOptions.set(initialOptions);
 
         this.quantity.set(1);
         this.selectedImageIndex.set(0);
@@ -263,26 +232,25 @@ export class ProductDetailsComponent {
   async fetchReviews(productKey: string) {
     this.loadingReviews.set(true);
     try {
-      const response = await this.apiClient.ecomFetch<unknown>(
-        `custom-objects/${CustomObjectContainer.ProductReviews}/${productKey}`,
+      const response = await this.apiClient.ecomFetch<{ results: { value: Review[] }[] }>(
+        `custom-objects/${CustomObjectContainer.ProductReviews}?where=key%3D%22${productKey}%22`,
       );
-      if (response && (response as { value?: Review[] }).value) {
-        this.reviews.set((response as { value: Review[] }).value);
+      if (response?.results?.length > 0 && response.results[0].value) {
+        this.reviews.set(response.results[0].value);
+      } else {
+        this.reviews.set([]);
       }
-    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       console.error('Failed to load reviews from database:', err);
     } finally {
       this.loadingReviews.set(false);
     }
   }
 
-  selectColor(color: string) {
-    this.selectedColor.set(color);
+  selectOption(name: string, value: string) {
+    this.selectedOptions.update((opts) => ({ ...opts, [name]: value }));
     this.selectedImageIndex.set(0);
-  }
-
-  selectStorage(storage: string) {
-    this.selectedStorage.set(storage);
   }
 
   selectTab(tabId: string) {
@@ -301,15 +269,12 @@ export class ProductDetailsComponent {
     const prod = this.product();
     if (!prod) return;
 
-    const name = prod.name['en'] || 'Product';
-    const color = this.selectedColor();
-    const storage = this.selectedStorage();
+    const name = localize(prod.name, 'Product');
     const qty = this.quantity();
     const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
       this.currentPrice(),
     );
-
-    const configDetails = [color, storage].filter(Boolean).join(', ');
+    const configDetails = Object.values(this.selectedOptions()).filter(Boolean).join(', ');
     const displayDetails = configDetails ? ` (${configDetails})` : '';
 
     this.toastService.show(

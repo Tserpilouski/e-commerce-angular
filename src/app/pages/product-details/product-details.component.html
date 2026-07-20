@@ -14,7 +14,7 @@
       <div class="product-main-grid">
         <div class="product-gallery">
           <div class="main-image-wrapper">
-            <img [src]="currentImage()" [alt]="product()!.name['en'] || 'Product Image'" class="main-image" />
+            <img [src]="currentImage()" [alt]="product()!.name | localize: 'Product Image'" class="main-image" />
           </div>
           @if (variantImages().length > 1) {
             <div class="thumbnails-row">
@@ -41,68 +41,52 @@
 
           <div class="brand-and-title">
             <div class="product-brand">{{ productBrand() }}</div>
-            <h1 class="product-title">{{ product()!.name['en'] }}</h1>
+            <h1 class="product-title">{{ product()!.name | localize: 'Unnamed Product' }}</h1>
           </div>
 
           <div class="product-price">
             {{ currentPrice() | currency: 'USD' : 'symbol' : '1.2-2' }}
           </div>
 
-          @if (product()!.description?.['en']) {
+          @if (product()!.description | localize: '') {
             <p class="product-description-short">
-              {{ product()!.description?.['en'] }}
+              {{ product()!.description | localize: '' }}
             </p>
           }
 
           <hr class="divider" />
 
-          @if (availableColors().length > 0) {
+          @for (option of configurableOptions(); track option.name) {
             <div class="variant-section">
               <span class="variant-label"
-                >Color: <span class="variant-value">{{ selectedColor() }}</span></span
+                >{{ option.label }}: <span class="variant-value">{{ selectedOptions()[option.name] }}</span></span
               >
-              <div class="color-swatches">
-                @for (color of availableColors(); track color) {
-                  <button
-                    type="button"
-                    class="swatch"
-                    [class.swatch--active]="selectedColor() === color"
-                    [style.background-color]="
-                      color.includes('Gray') ||
-                      color.includes('Black') ||
-                      color.includes('Midnight') ||
-                      color.includes('Carbon') ||
-                      color.includes('Dark')
-                        ? '#374151'
-                        : color.includes('Silver') ||
-                            color.includes('Starlight') ||
-                            color.includes('White') ||
-                            color.includes('Polar') ||
-                            color.includes('Arctic')
-                          ? '#e2e8f0'
-                          : color
-                    "
-                    (click)="selectColor(color)"
-                    [attr.aria-label]="'Select ' + color + ' color option'"></button>
-                }
-              </div>
-            </div>
-          }
 
-          @if (availableStorages().length > 0) {
-            <div class="variant-section">
-              <span class="variant-label">{{ variantOptionLabel() }}</span>
-              <div class="storage-options">
-                @for (size of availableStorages(); track size) {
-                  <button
-                    type="button"
-                    class="storage-btn"
-                    [class.storage-btn--active]="selectedStorage() === size"
-                    (click)="selectStorage(size)">
-                    {{ size }}
-                  </button>
-                }
-              </div>
+              @if (option.name.toLowerCase().includes('color') || option.name.toLowerCase().includes('finish')) {
+                <div class="color-swatches">
+                  @for (val of option.values; track val) {
+                    <button
+                      type="button"
+                      class="swatch"
+                      [class.swatch--active]="selectedOptions()[option.name] === val"
+                      [style.background-color]="colorCodeMap()[val] || val"
+                      (click)="selectOption(option.name, val)"
+                      [attr.aria-label]="'Select ' + val + ' option'"></button>
+                  }
+                </div>
+              } @else {
+                <div class="storage-options">
+                  @for (val of option.values; track val) {
+                    <button
+                      type="button"
+                      class="storage-btn"
+                      [class.storage-btn--active]="selectedOptions()[option.name] === val"
+                      (click)="selectOption(option.name, val)">
+                      {{ val }}
+                    </button>
+                  }
+                </div>
+              }
             </div>
           }
 
@@ -147,63 +131,9 @@
         <div class="tab-content-panel">
           @if (activeTabId() === ProductTab.Specs) {
             <div class="specs-tab-view">
-              @if (isLaptop()) {
-                <div class="laptop-specs-grid">
-                  <div class="spec-card-custom spec-card-custom--process">
-                    <h3 class="card-title">Processor & Graphics</h3>
-                    <p class="card-desc">
-                      Equipped with the latest custom silicon architecture, delivering unprecedented performance per
-                      watt. Handle complex 3D rendering, machine learning models, and massive logical arrays with zero
-                      thermal throttling.
-                    </p>
-                    <div class="spec-table">
-                      <div class="spec-table-row">
-                        <span class="spec-table-label">CPU Cores</span>
-                        <span class="spec-table-val">{{ laptopSpecs().cpu || 'Not specified' }}</span>
-                      </div>
-                      <div class="spec-table-row">
-                        <span class="spec-table-label">Brand</span>
-                        <span class="spec-table-val">{{ laptopSpecs().brand || 'Not specified' }}</span>
-                      </div>
-                      <div class="spec-table-row">
-                        <span class="spec-table-label">Graphics (GPU)</span>
-                        <span class="spec-table-val">High-Performance integrated</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="spec-card-custom spec-card-custom--memory">
-                    <div class="chip-graphic">
-                      <mat-icon>memory</mat-icon>
-                    </div>
-                    <span class="card-subtitle">Unified Memory</span>
-                    <h3 class="memory-size-title">Up to {{ laptopSpecs().ram || 'Standard Config' }}</h3>
-                    <span class="bandwidth-label">400GB/s bandwidth</span>
-                  </div>
-
-                  <div class="spec-card-custom spec-card-custom--display">
-                    <h3 class="card-title">Display Technology</h3>
-                    <div class="display-specs-grid">
-                      <div class="display-metric">
-                        <span class="metric-label">Resolution</span>
-                        <span class="metric-val">{{ laptopSpecs().resolution || 'Not specified' }}</span>
-                      </div>
-                      <div class="display-metric">
-                        <span class="metric-label">Brightness</span>
-                        <span class="metric-val">{{ laptopSpecs().brightness || 'Not specified' }}</span>
-                      </div>
-                      <div class="display-metric">
-                        <span class="metric-label">Refresh Rate</span>
-                        <span class="metric-val">{{ laptopSpecs().refreshRate || 'Not specified' }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              } @else {
-                <div class="generic-specs-wrapper">
-                  <ec-product-specifications [attributes]="product()!.masterVariant.attributes" />
-                </div>
-              }
+              <div class="generic-specs-wrapper">
+                <ec-product-specifications [customSpecs]="productSpecs()" />
+              </div>
             </div>
           }
 

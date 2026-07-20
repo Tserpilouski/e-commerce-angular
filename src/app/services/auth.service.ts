@@ -54,7 +54,7 @@ export class AuthService {
 
     const apiClient = this.injector.get(ApiClientService);
 
-    const data = await apiClient.httpFetch<AuthTokenResponse>(`${authUrl}/oauth/token`, {
+    const data = await apiClient.ecomFetch<AuthTokenResponse>(`${authUrl}/oauth/token`, {
       method: 'POST',
       headers: {
         Authorization: `Basic ${btoa(`${clientId}:${clientSecret}`)}`,
