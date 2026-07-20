@@ -57,6 +57,11 @@ $border-alert-error: #fca5a5;
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
+
+  ::ng-deep input {
+    padding-right: 2.5rem !important;
+  }
 }
 
 .password-toggle {

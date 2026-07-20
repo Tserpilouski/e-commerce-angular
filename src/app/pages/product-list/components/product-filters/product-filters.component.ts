@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ProductFilters } from '@models/products/product-filters.model';
 import { ProductService } from '@services/product.service';
 import { ProductSearchInput } from '@app/product-search-input/product-search-input.component';
+import { LocalizePipe } from '@shared/pipes/localize.pipe';
 
 @Component({
   selector: 'ec-product-filters',
@@ -26,6 +27,7 @@ import { ProductSearchInput } from '@app/product-search-input/product-search-inp
     MatListModule,
     MatExpansionModule,
     MatButtonModule,
+    LocalizePipe,
   ],
   templateUrl: './product-filters.component.html',
   styleUrls: ['./product-filters.component.scss'],

@@ -4,11 +4,12 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 
 import { routes } from './app.routes';
 import { authLoggingInterceptor } from './core/interceptors/auth-logging.interceptor';
+import { ecomInterceptor } from './core/interceptors/ecom.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([authLoggingInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([ecomInterceptor, authLoggingInterceptor])),
   ],
 };

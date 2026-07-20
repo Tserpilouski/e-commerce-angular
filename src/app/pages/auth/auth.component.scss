@@ -4,9 +4,14 @@ $text-muted: #64748b;
 $bg-panel: #f8fafc;
 $bg-white: #ffffff;
 
+:host {
+  display: flex;
+  flex: 1;
+}
+
 .auth-container {
   display: flex;
-  min-height: 100vh;
+  flex: 1;
   width: 100%;
   box-sizing: border-box;
 }

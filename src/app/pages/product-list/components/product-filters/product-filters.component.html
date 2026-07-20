@@ -18,7 +18,7 @@
           <mat-list-option [value]="null" [selected]="selectedCategoryId === null"> All Categories </mat-list-option>
           @for (category of getVisibleItems(categories(), 'categories'); track category.id) {
             <mat-list-option [value]="category.id" [selected]="selectedCategoryId === category.id">
-              {{ category.name['en'] }}
+              {{ category.name | localize: 'Unnamed Category' }}
             </mat-list-option>
           }
         </mat-selection-list>
@@ -65,9 +65,9 @@
         </mat-expansion-panel-header>
 
         <div class="checkbox-list">
-          @for (brand of getVisibleItems(availableBrands(), 'brands'); track brand) {
-            <mat-checkbox [checked]="selectedBrands.has(brand)" (change)="toggleBrand(brand, $event.checked)">
-              {{ brand }}
+          @for (brand of getVisibleItems(availableBrands(), 'brands'); track brand.key) {
+            <mat-checkbox [checked]="selectedBrands.has(brand.key)" (change)="toggleBrand(brand.key, $event.checked)">
+              {{ brand.label }}
             </mat-checkbox>
           }
         </div>
@@ -88,11 +88,11 @@
           </mat-expansion-panel-header>
 
           <div class="checkbox-list">
-            @for (val of getVisibleItems(attr[1], attr[0]); track val) {
+            @for (val of getVisibleItems(attr[1], attr[0]); track val.key) {
               <mat-checkbox
-                [checked]="selectedDynamicFilters[attr[0]]?.has(val + '')"
-                (change)="toggleDynamicFilter(attr[0], val + '', $event.checked)">
-                {{ val === true || val === 'true' ? 'Yes' : val === false || val === 'false' ? 'No' : val }}
+                [checked]="selectedDynamicFilters[attr[0]]?.has(val.key)"
+                (change)="toggleDynamicFilter(attr[0], val.key, $event.checked)">
+                {{ val.label === 'true' ? 'Yes' : val.label === 'false' ? 'No' : val.label }}
               </mat-checkbox>
             }
           </div>
