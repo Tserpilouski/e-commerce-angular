@@ -18,10 +18,15 @@
   gap: 0.75rem;
   margin-bottom: 1rem;
 
-  &__title {
+  &__recipient {
+    flex: 1;
+    min-width: 0;
     font-size: 1.125rem;
     font-weight: 700;
     color: #0f172a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__default {
@@ -38,7 +43,6 @@
 
   &__action {
     display: flex;
-    margin-left: auto;
     padding: 0;
     border: none;
     background: none;

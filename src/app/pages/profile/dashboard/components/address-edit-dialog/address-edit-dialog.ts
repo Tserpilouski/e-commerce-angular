@@ -1,56 +1,58 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DeliveryInfo } from '@pages/profile/dashboard/models/delivery-info.model';
+import { AddressDialogData, AddressDialogResult } from '@pages/profile/dashboard/models/address-dialog.model';
+import { Address } from '@shared/models/address.model';
 
-const BLANK_DELIVERY: DeliveryInfo = {
-  id: 0,
-  label: '',
-  isDefault: false,
-  recipient: { firstName: '', lastName: '', phone: '' },
-  address: {
-    country: '',
-    city: '',
-    postalCode: '',
-    street: '',
-    houseNumber: '',
-    apartmentNumber: '',
-  },
+const BLANK_ADDRESS: Address = {
+  country: '',
+  firstName: '',
+  lastName: '',
+  phone: '',
+  streetName: '',
+  streetNumber: '',
+  additionalStreetInfo: '',
+  postalCode: '',
+  city: '',
 };
 
 @Component({
   selector: 'ec-address-edit-dialog',
-  imports: [ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCheckboxModule,
+  ],
   templateUrl: './address-edit-dialog.html',
   styleUrl: './address-edit-dialog.scss',
 })
 export class AddressEditDialog {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly dialogRef = inject<MatDialogRef<AddressEditDialog, DeliveryInfo>>(MatDialogRef);
-  private readonly data = inject<DeliveryInfo | null>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<AddressEditDialog, AddressDialogResult>>(MatDialogRef);
+  private readonly data = inject<AddressDialogData>(MAT_DIALOG_DATA);
 
-  readonly isNew = this.data === null;
+  readonly isNew = this.data.address === null;
 
-  private readonly delivery = this.data ?? BLANK_DELIVERY;
+  private readonly address = this.data.address ?? BLANK_ADDRESS;
 
   readonly form = this.formBuilder.nonNullable.group({
-    label: [this.delivery.label, Validators.required],
-    recipient: this.formBuilder.nonNullable.group({
-      firstName: [this.delivery.recipient.firstName, Validators.required],
-      lastName: [this.delivery.recipient.lastName, Validators.required],
-      phone: [this.delivery.recipient.phone, Validators.required],
-    }),
-    address: this.formBuilder.nonNullable.group({
-      country: [this.delivery.address.country, Validators.required],
-      city: [this.delivery.address.city, Validators.required],
-      postalCode: [this.delivery.address.postalCode, Validators.required],
-      street: [this.delivery.address.street, Validators.required],
-      houseNumber: [this.delivery.address.houseNumber, Validators.required],
-      apartmentNumber: [this.delivery.address.apartmentNumber ?? ''],
-    }),
+    firstName: [this.address.firstName ?? '', Validators.required],
+    lastName: [this.address.lastName ?? '', Validators.required],
+    phone: [this.address.phone ?? ''],
+    country: [this.address.country, [Validators.required, Validators.pattern(/^[A-Za-z]{2}$/)]],
+    city: [this.address.city ?? '', Validators.required],
+    postalCode: [this.address.postalCode ?? '', Validators.required],
+    streetName: [this.address.streetName ?? '', Validators.required],
+    streetNumber: [this.address.streetNumber ?? ''],
+    additionalStreetInfo: [this.address.additionalStreetInfo ?? ''],
+    defaultShipping: [this.data.isDefault],
   });
 
   save(): void {
@@ -59,6 +61,11 @@ export class AddressEditDialog {
       return;
     }
 
-    this.dialogRef.close({ ...this.delivery, ...this.form.getRawValue() });
+    const { defaultShipping, country, ...fields } = this.form.getRawValue();
+
+    this.dialogRef.close({
+      address: { ...this.address, ...fields, country: country.toUpperCase() },
+      defaultShipping,
+    });
   }
 }
